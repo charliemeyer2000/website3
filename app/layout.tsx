@@ -19,6 +19,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'Charlie Meyer',
   description: 'Charlie Meyer&apos;s personal website',
+  icons: {
+    icon: '/favicon.svg',
+  }
 };
 
 export default function RootLayout({
