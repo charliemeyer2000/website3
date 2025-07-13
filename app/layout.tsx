@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   description: 'Charlie Meyer&apos;s personal website',
   icons: {
     icon: '/favicon.svg',
-  }
+  },
 };
 
 export default function RootLayout({
