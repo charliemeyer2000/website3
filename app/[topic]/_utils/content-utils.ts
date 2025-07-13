@@ -1,8 +1,10 @@
 import fs from 'fs';
 import matter from 'gray-matter';
 import path from 'path';
+import rehypeSlug from 'rehype-slug';
+import rehypeStringify from 'rehype-stringify';
 import { remark } from 'remark';
-import html from 'remark-html';
+import remarkRehype from 'remark-rehype';
 
 import {
   IContentConfig,
@@ -90,7 +92,11 @@ async function _processConfigContent(
           'utf8',
         );
         const { content } = matter(rawMarkdown);
-        const htmlContent = await remark().use(html).process(content);
+        const htmlContent = await remark()
+          .use(remarkRehype)
+          .use(rehypeSlug)
+          .use(rehypeStringify)
+          .process(content);
         compiledMarkdown[id] = htmlContent.toString();
       }),
   );

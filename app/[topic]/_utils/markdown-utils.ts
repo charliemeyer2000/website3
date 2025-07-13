@@ -1,8 +1,10 @@
 import fs from 'fs';
 import matter from 'gray-matter';
 import path from 'path';
+import rehypeSlug from 'rehype-slug';
+import rehypeStringify from 'rehype-stringify';
 import { remark } from 'remark';
-import html from 'remark-html';
+import remarkRehype from 'remark-rehype';
 
 export interface IMarkdownContent {
   topic: string;
@@ -26,7 +28,9 @@ export async function getPostData(
   const matterResult = matter(fileContents);
 
   const processedContent = await remark()
-    .use(html)
+    .use(remarkRehype)
+    .use(rehypeSlug)
+    .use(rehypeStringify)
     .process(matterResult.content);
   const contentHtml = processedContent.toString();
 
