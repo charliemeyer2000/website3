@@ -1,5 +1,5 @@
+import { existsSync, readdirSync } from 'fs';
 import type { MetadataRoute } from 'next';
-import { readdirSync, existsSync } from 'fs';
 import { join } from 'path';
 
 const BASE_URL = 'https://charliemeyer.xyz';
@@ -10,15 +10,15 @@ const BASE_URL = 'https://charliemeyer.xyz';
 function getTopics(): string[] {
   const contentDir = join(process.cwd(), 'app', '_content');
   const topics: string[] = [];
-  
+
   try {
     const entries = readdirSync(contentDir, { withFileTypes: true });
-    
+
     for (const entry of entries) {
       if (entry.isDirectory()) {
         const topicPath = join(contentDir, entry.name);
         const contentFile = join(topicPath, 'content.ts');
-        
+
         // Only include topics that have a content.ts file
         if (existsSync(contentFile)) {
           topics.push(entry.name);
@@ -28,7 +28,7 @@ function getTopics(): string[] {
   } catch (error) {
     console.error('Error reading content directory:', error);
   }
-  
+
   return topics;
 }
 
@@ -37,9 +37,11 @@ function getTopics(): string[] {
  */
 async function getTopicSlugs(topic: string): Promise<string[]> {
   try {
-    const { default: content } = await import(`@/app/_content/${topic}/content`);
+    const { default: content } = await import(
+      `@/app/_content/${topic}/content`
+    );
     const slugs: string[] = [];
-    
+
     if (content.items) {
       for (const item of content.items) {
         // Only include internal links (not external ones)
@@ -52,7 +54,7 @@ async function getTopicSlugs(topic: string): Promise<string[]> {
         }
       }
     }
-    
+
     return slugs;
   } catch (error) {
     console.error(`Error loading content for topic ${topic}:`, error);
@@ -62,7 +64,7 @@ async function getTopicSlugs(topic: string): Promise<string[]> {
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const urls: MetadataRoute.Sitemap = [];
-  
+
   // Static routes
   urls.push({
     url: BASE_URL,
@@ -70,17 +72,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: 'weekly',
     priority: 1,
   });
-  
+
   urls.push({
     url: `${BASE_URL}/design`,
     lastModified: new Date(),
     changeFrequency: 'monthly',
     priority: 0.6,
   });
-  
+
   // Dynamic routes
   const topics = getTopics();
-  
+
   for (const topic of topics) {
     // Add topic page
     urls.push({
@@ -89,10 +91,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: topic === 'posts' ? 'weekly' : 'monthly',
       priority: topic === 'posts' ? 0.8 : 0.7,
     });
-    
+
     // Add all slugs for this topic
     const slugs = await getTopicSlugs(topic);
-    
+
     for (const slug of slugs) {
       urls.push({
         url: `${BASE_URL}/${topic}/${slug}`,
@@ -102,6 +104,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       });
     }
   }
-  
+
   return urls;
 }
