@@ -2,26 +2,17 @@
 
 import React, { useEffect, useState } from 'react';
 
-const isDev = process.env.NODE_ENV === 'development';
-
 interface IViewCounterProps {
   topic: string;
   slug: string;
 }
 
 const ViewCounter: React.FC<IViewCounterProps> = ({ topic, slug }) => {
-  const [views, setViews] = useState<number>(0);
+  const [views] = useState<number>(0);
 
   useEffect(() => {
-    if (!slug || !topic || isDev) return; // Don't fetch in development
-
-    const fetchViews = async () => {
-      const response = await fetch(`/api/blog-views/${topic}/${slug}`);
-      const { views } = await response.json();
-      setViews(views);
-    };
-
-    fetchViews();
+    // Temporarily disabled - will implement API endpoint later
+    return;
   }, [slug, topic]);
 
   return (

@@ -22,5 +22,3 @@ Aside from running the SF marathon again, I need to run the NYC Marathon. I'd wa
 ## Talk to me
 
 I'm open to work. If my interests align with what you're doing or are just someone who's incredibly passionate about something, I'd love to chat.
-
-hello there general kenobi
