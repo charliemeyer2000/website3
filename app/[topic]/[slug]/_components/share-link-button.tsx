@@ -22,6 +22,9 @@ const ShareLinkButton = ({ className, ...props }: ButtonProps) => {
   const pathname = usePathname();
   const { isCopied, handleCopy } = useCopyToClipboard(
     createShareableBlogLink(pathname),
+    {
+      showToast: false,
+    },
   );
   return (
     <Button

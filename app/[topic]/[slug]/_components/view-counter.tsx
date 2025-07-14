@@ -38,7 +38,7 @@ const ViewCounter: React.FC<IViewCounterProps> = ({ topic, slug }) => {
   }, [slug, topic]);
 
   return (
-    <div className="text-muted-foreground flex flex-row items-center">
+    <div className="text-muted-foreground flex flex-row items-center text-sm">
       <span className="tabular-nums">{isLoading ? '—' : viewCount}</span>
       <span className="ml-1">views</span>
     </div>
