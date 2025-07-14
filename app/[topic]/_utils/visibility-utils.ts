@@ -1,4 +1,4 @@
-import { IContentGroup, IContentItem } from '../_constants/content-types';
+import { IContentGroup } from '../_constants/content-types';
 import { hasConfigDrivenContent } from './content-utils';
 import { isPostPrivate } from './markdown-utils';
 
