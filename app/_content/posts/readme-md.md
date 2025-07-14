@@ -20,7 +20,7 @@ I work on inference research with [Zhepei Wei](https://weizhepei.com/) and indep
 The intersection of what I'm good at, what I care about, and what's important in the world is AGI and AI safety. So I'm working on that, and
 its subproblems. That currently being inference research, automated theorem proving, and some safety work.
 
-I'm also deeply interested in the infrastructure behind AI research. It's incredibly hard to do training at scale. Why is it so hard to run experiments at scale, multi-node, multi-gpu? Training and serving models should be as easy as developing and deploying web apps.
+I'm also deeply interested in the infrastructure behind AI research. Why is it so hard to run experiments at scale, multi-node, multi-gpu? Training and serving models should be as easy as developing and deploying web apps.
 
 Aside from running the SF marathon again, I need to run the NYC Marathon. I'd want to get to the [Copenhagen Open](https://www.cphopen.com/) or [Dime](https://dimemtl.com/blogs/videos).
 
