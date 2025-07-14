@@ -13,7 +13,7 @@ const CONTENT: IContentGroup = {
     },
     {
       title: 'README.md',
-      href: '/posts/readme',
+      href: '/posts/readme-md',
       Icon: FileText,
     },
   ],
