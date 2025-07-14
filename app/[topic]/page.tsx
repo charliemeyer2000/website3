@@ -80,7 +80,7 @@ export default async function TopicPage({ params }: ITopicPageProps) {
   const filteredContent = filterPrivateContent(topicContent, topic);
 
   return (
-    <div className="relative mx-auto flex w-full max-w-4xl grow flex-col px-4 pt-8 pb-6 sm:pb-2 md:py-12 md:pb-2">
+    <div className="relative mx-auto flex min-h-screen w-full max-w-4xl flex-col px-4 pt-8 pb-6 sm:pb-2 md:py-12 md:pb-2">
       <div className="flex grow flex-col gap-12">
         <div className="flex flex-col gap-1">
           <Title level={TextLevel.H1}>{topic}</Title>
