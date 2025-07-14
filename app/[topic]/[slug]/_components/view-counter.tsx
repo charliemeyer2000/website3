@@ -2,27 +2,45 @@
 
 import React, { useEffect, useState } from 'react';
 
+import useServerAction from '@/hooks/use-server-action';
+
+import { createOrUpdateViewCount } from '../_actions/view-actions';
+
 interface IViewCounterProps {
   topic: string;
   slug: string;
 }
 
 const ViewCounter: React.FC<IViewCounterProps> = ({ topic, slug }) => {
-  const [views] = useState<number>(0);
+  const [viewCount, setViewCount] = useState<number>(0);
+
+  const [trackView, isLoading] = useServerAction({
+    action: createOrUpdateViewCount,
+    onSuccess: {
+      action: ({ response }) => {
+        if (response) {
+          setViewCount(response.viewCount);
+        }
+      },
+    },
+    onError: {
+      title: 'Failed to track view',
+    },
+    options: {
+      showToasts: false,
+      useGlobalLoader: false,
+    },
+  });
 
   useEffect(() => {
-    // Temporarily disabled - will implement API endpoint later
-    return;
+    trackView({ topic, slug });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug, topic]);
 
   return (
     <div className="text-muted-foreground flex flex-row items-center">
-      {views === 0 ? (
-        <div className="bg-muted-foreground/50 mx-1 h-4 w-6 animate-pulse rounded" />
-      ) : (
-        views
-      )}{' '}
-      views
+      <span className="tabular-nums">{isLoading ? '—' : viewCount}</span>
+      <span className="ml-1">views</span>
     </div>
   );
 };

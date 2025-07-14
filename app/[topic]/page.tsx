@@ -58,7 +58,7 @@ export default async function TopicPage({ params }: ITopicPageProps) {
   return (
     <div className="mx-auto flex w-full max-w-4xl grow flex-col gap-12 px-4 pt-8 pb-12 md:py-12">
       <Link href="/">
-        <Title level={TextLevel.H1}>the repository</Title>
+        <Title level={TextLevel.H1}>{topic}</Title>
       </Link>
       <TableOfContentsSection group={topicContent} />
     </div>

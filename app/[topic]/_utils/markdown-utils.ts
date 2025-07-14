@@ -24,6 +24,11 @@ export async function getPostData(
   slug: string,
 ): Promise<IMarkdownContent> {
   const fullPath = path.join(postsDirectory, `${topic}/${slug}.md`);
+
+  if (!fs.existsSync(fullPath)) {
+    throw new Error(`Post not found: ${topic}/${slug}`);
+  }
+
   const fileContents = fs.readFileSync(fullPath, 'utf8');
   const matterResult = matter(fileContents);
 

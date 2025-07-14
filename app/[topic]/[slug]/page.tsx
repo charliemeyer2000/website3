@@ -1,5 +1,7 @@
 import type React from 'react';
 
+import { notFound } from 'next/navigation';
+
 import { getPostData } from '@/app/[topic]/_utils/markdown-utils';
 
 import {
@@ -50,7 +52,11 @@ export default async function ContentPage({ params }: IBlogPostPageProps) {
    * Fallback to traditional single-markdown post
    * This maintains backward compatibility with existing content
    */
-  const post = await getPostData(topic, slug);
-
-  return <MarkdownOnlyContent post={post} />;
+  try {
+    const post = await getPostData(topic, slug);
+    return <MarkdownOnlyContent post={post} />;
+  } catch {
+    // Post not found, return 404
+    notFound();
+  }
 }

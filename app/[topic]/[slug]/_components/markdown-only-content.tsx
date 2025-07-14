@@ -7,6 +7,7 @@ import { MarkdownRenderer } from '../../_components/markdown-renderer';
 import { IMarkdownContent } from '../../_utils/markdown-utils';
 import ContentBreadcrumbs from './content-breadcrumbs';
 import ShareLinkButton from './share-link-button';
+import ViewCounter from './view-counter';
 
 interface IMarkdownOnlyContentProps {
   post: IMarkdownContent;
@@ -23,7 +24,7 @@ export const MarkdownOnlyContent = ({ post }: IMarkdownOnlyContentProps) => {
         <div className="flex flex-row items-start justify-between">
           <div>
             <p>{post.title}</p>
-            {/* <ViewCounter topic={post.topic} slug={post.slug} /> */}
+            <ViewCounter topic={post.topic} slug={post.slug} />
           </div>
           <ShareLinkButton className="hidden sm:flex" />
         </div>
