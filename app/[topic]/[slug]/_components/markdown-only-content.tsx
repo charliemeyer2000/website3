@@ -19,13 +19,10 @@ interface IMarkdownOnlyContentProps {
 export const MarkdownOnlyContent = ({ post }: IMarkdownOnlyContentProps) => {
   return (
     <article className="mx-auto flex w-full max-w-4xl grow flex-col gap-12 px-4 pt-8 pb-12 md:py-12">
-      <div>
-        <ContentBreadcrumbs />
-        <div className="flex flex-row items-start justify-between">
-          <div>
-            <p>{post.title}</p>
-            <ViewCounter topic={post.topic} slug={post.slug} />
-          </div>
+      <div className="flex w-full flex-row items-start justify-between">
+        <ContentBreadcrumbs title={post.title} />
+        <div className="flex flex-row items-center gap-2">
+          <ViewCounter topic={post.topic} slug={post.slug} />
           <ShareLinkButton className="hidden sm:flex" />
         </div>
       </div>

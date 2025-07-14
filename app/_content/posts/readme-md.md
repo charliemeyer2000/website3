@@ -24,6 +24,8 @@ I'm also deeply interested in the infrastructure behind AI research. It's incred
 
 Aside from running the SF marathon again, I need to run the NYC Marathon. I'd want to get to the [Copenhagen Open](https://www.cphopen.com/) or [Dime](https://dimemtl.com/blogs/videos).
 
+---
+
 ## Talk to me
 
 I'm open to work. If my interests align with what you're doing or are just someone who's incredibly passionate about something, I'd love to chat.

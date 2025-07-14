@@ -12,7 +12,11 @@ import {
 
 import { capitalizeText } from '@/lib/utils/text-formatting-utils';
 
-const ContentBreadcrumbs = () => {
+interface IContentBreadcrumbsProps {
+  title?: string;
+}
+
+const ContentBreadcrumbs = ({ title }: IContentBreadcrumbsProps) => {
   const pathname = usePathname();
   const topic = pathname?.split('/')[1] ?? '';
 
@@ -29,6 +33,16 @@ const ContentBreadcrumbs = () => {
           <Link href={`/${topic}`}>{capitalizeText(topic)}</Link>
         </BreadcrumbLink>
       </BreadcrumbItem>
+      {title && (
+        <>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <span className="cursor-default text-sm">{title}</span>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+        </>
+      )}
     </Breadcrumb>
   );
 };

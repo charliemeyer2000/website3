@@ -61,9 +61,15 @@ export default async function TopicPage({ params }: ITopicPageProps) {
 
   return (
     <div className="mx-auto flex w-full max-w-4xl grow flex-col gap-12 px-4 pt-8 pb-12 md:py-12">
-      <Link href="/">
+      <div className="flex flex-col gap-1">
         <Title level={TextLevel.H1}>{topic}</Title>
-      </Link>
+        <Link
+          href="/"
+          className="text-muted-foreground hover:text-foreground text-sm"
+        >
+          ← home
+        </Link>
+      </div>
       <TableOfContentsSection group={filteredContent} />
     </div>
   );
