@@ -29,14 +29,31 @@ async function loadTopicContent(topic: string): Promise<IContentGroup | null> {
   if (topic === 'favicon.ico') {
     return null;
   }
+  
   try {
     const { default: content } = (await import(
       `@/app/_content/${topic}/content`
     )) as { default: IContentGroup };
 
+    // Validate that the imported content is valid
+    if (!content || typeof content !== 'object') {
+      console.warn(`Invalid content structure for topic: ${topic}`);
+      return null;
+    }
+
     return content;
   } catch (error) {
-    console.error(`Failed to load content for topic: ${topic}`, error);
+    // Handle module not found and other import errors
+    if (error instanceof Error) {
+      if (error.message.includes('Cannot find module') || 
+          error.message.includes('Module not found')) {
+        // Silently handle missing content modules
+        return null;
+      }
+      console.error(`Error loading content for topic: ${topic}`, error.message);
+    } else {
+      console.error(`Unknown error loading content for topic: ${topic}`, error);
+    }
     return null;
   }
 }
