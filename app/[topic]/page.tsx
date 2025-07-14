@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { Title } from '@/components/intuitive-ui/(native)/(typography)/title';
 import { TextLevel } from '@/components/intuitive-ui/(native)/(typography)/typography-enums';
 
+import Clock from '@/app/_components/clock';
 import TableOfContentsSection from '@/app/_components/table-of-contents-section';
 
 import { IContentGroup } from './_constants/content-types';
@@ -79,17 +80,32 @@ export default async function TopicPage({ params }: ITopicPageProps) {
   const filteredContent = filterPrivateContent(topicContent, topic);
 
   return (
-    <div className="mx-auto flex w-full max-w-4xl grow flex-col gap-12 px-4 pt-8 pb-12 md:py-12">
-      <div className="flex flex-col gap-1">
-        <Title level={TextLevel.H1}>{topic}</Title>
-        <Link
-          href="/"
-          className="text-muted-foreground hover:text-foreground text-sm"
-        >
-          ← home
-        </Link>
+    <div className="relative mx-auto flex w-full max-w-4xl grow flex-col px-4 pt-8 pb-6 sm:pb-2 md:py-12 md:pb-2">
+      <div className="flex grow flex-col gap-12">
+        <div className="flex flex-col gap-1">
+          <Title level={TextLevel.H1}>{topic}</Title>
+          <Link
+            href="/"
+            className="text-muted-foreground hover:text-foreground text-sm"
+          >
+            ← home
+          </Link>
+        </div>
+        <TableOfContentsSection group={filteredContent} />
       </div>
-      <TableOfContentsSection group={filteredContent} />
+      <div className="text-muted-foreground mt-auto flex w-full items-center justify-between pt-12 text-xs sm:text-sm">
+        <p>San Francisco, Ca</p>
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          <p>
+            {new Date().toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </p>
+          <Clock />
+        </div>
+      </div>
     </div>
   );
 }
