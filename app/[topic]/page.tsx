@@ -29,7 +29,7 @@ async function loadTopicContent(topic: string): Promise<IContentGroup | null> {
   if (topic === 'favicon.ico') {
     return null;
   }
-  
+
   try {
     const { default: content } = (await import(
       `@/app/_content/${topic}/content`
@@ -45,8 +45,10 @@ async function loadTopicContent(topic: string): Promise<IContentGroup | null> {
   } catch (error) {
     // Handle module not found and other import errors
     if (error instanceof Error) {
-      if (error.message.includes('Cannot find module') || 
-          error.message.includes('Module not found')) {
+      if (
+        error.message.includes('Cannot find module') ||
+        error.message.includes('Module not found')
+      ) {
         // Silently handle missing content modules
         return null;
       }
