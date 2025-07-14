@@ -9,7 +9,7 @@ Hey, I'm Charlie Meyer.
 
 ## Currently
 
-I'm a third year @ UVA studying Computer Science and Entrepreneurship. I'm a 2025 [Neo Scholar](https://neo.com/scholars), Model UN-er, dedicated weightlifter, and decent snowboarder. Previously, I've worked at [Principal Financial](https://www.principal.com/), [Scenthound](https://www.scenthound.com/), and [Vercel](https://vercel.com/). I also hack on side projects like [Hufflo](https://hufflo.com/) and [simpletext](https://simpletext.ai/).
+I'm a third year @ UVA studying Computer Science and Entrepreneurship. I'm a 2025 [Neo Scholar](https://neo.com/scholars), Model UN-er, dedicated weightlifter, and decent snowboarder. Previously, I've worked at [Principal Financial](https://www.principal.com/), [Scenthound](https://www.scenthound.com/), and [Vercel](https://vercel.com/). I also hack on side projects like [Hufflo](https://hufflo.com/) and [simpletext](https://simpletext.dev/).
 
 I work on inference research with [Zhepei Wei](https://weizhepei.com/) and independently explore AI for math research. How can we get LLMs to reason in formal math (Lean)?
 
