@@ -12,6 +12,7 @@ export interface IMarkdownContent {
   title: string;
   description?: string;
   contentHtml: string;
+  visibility?: string;
 }
 
 const postsDirectory = path.join(process.cwd(), 'app', '_content');
@@ -32,6 +33,11 @@ export async function getPostData(
   const fileContents = fs.readFileSync(fullPath, 'utf8');
   const matterResult = matter(fileContents);
 
+  // Check if the post is private
+  if (matterResult.data.visibility === 'private') {
+    throw new Error(`Access denied: ${topic}/${slug} is private`);
+  }
+
   const processedContent = await remark()
     .use(remarkRehype)
     .use(rehypeSlug)
@@ -45,4 +51,20 @@ export async function getPostData(
     contentHtml,
     ...matterResult.data,
   } as IMarkdownContent;
+}
+
+/**
+ * Check if a markdown post is private without processing its content
+ */
+export function isPostPrivate(topic: string, slug: string): boolean {
+  const fullPath = path.join(postsDirectory, `${topic}/${slug}.md`);
+
+  if (!fs.existsSync(fullPath)) {
+    return false;
+  }
+
+  const fileContents = fs.readFileSync(fullPath, 'utf8');
+  const matterResult = matter(fileContents);
+
+  return matterResult.data.visibility === 'private';
 }

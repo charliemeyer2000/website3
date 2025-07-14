@@ -15,6 +15,7 @@ export interface IContentItem {
 export interface IContentGroup {
   Icon: ElementType;
   title: string;
+  href?: string;
   items: IContentItem[];
 }
 

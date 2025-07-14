@@ -1,11 +1,9 @@
-'use client';
-
 import { Subtitle } from '@/components/intuitive-ui/(native)/(typography)/subtitle';
 import { Title } from '@/components/intuitive-ui/(native)/(typography)/title';
 
 import DashedGridGutter from './_components/dashed-grid-gutter';
+import FilteredTableOfContents from './_components/filtered-table-of-contents';
 import Footer from './_components/footer';
-import TableOfContents from './_components/table-of-contents';
 
 export default function Home() {
   return (
@@ -15,7 +13,7 @@ export default function Home() {
           <Title>charlie meyer</Title>
           <Subtitle balance>infrastructure, ai, llms, and safety.</Subtitle>
         </div>
-        <TableOfContents />
+        <FilteredTableOfContents />
       </div>
 
       <Footer />

@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { type VariantProps, cva } from 'class-variance-authority';
+import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
 
@@ -62,6 +63,8 @@ export interface TitleProps
   isSectionHeading?: boolean;
   /** For accessibility, override the heading level for screen readers */
   ariaLevel?: number;
+  /** Optional href to make the title a link */
+  href?: string;
 }
 
 const Title = React.forwardRef<
@@ -82,6 +85,7 @@ const Title = React.forwardRef<
       ariaLevel,
       children,
       balance,
+      href,
       ...props
     },
     ref,
@@ -91,6 +95,7 @@ const Title = React.forwardRef<
         'balance and pretty cannot be used together. please use one or the other.',
       );
     }
+
     // Determine the component to render
     const Comp = level as React.ElementType;
 
@@ -103,23 +108,20 @@ const Title = React.forwardRef<
         ariaLevel || (level === TextLevel.P ? 2 : undefined);
     }
 
-    return (
-      <Comp
-        className={cn(
-          titleVariants({
-            level,
-            size,
-            transform,
-            srOnly,
-            pretty,
-            balance,
-          }),
-          className,
-        )}
-        ref={ref}
-        {...accessibilityProps}
-        {...props}
-      >
+    const titleClasses = cn(
+      titleVariants({
+        level,
+        size,
+        transform,
+        srOnly,
+        pretty,
+        balance,
+      }),
+      className,
+    );
+
+    const titleContent = (
+      <>
         {LeadingIcon && (
           <LeadingIcon className="mr-2 inline-block" aria-hidden="true" />
         )}
@@ -127,6 +129,37 @@ const Title = React.forwardRef<
         {TrailingIcon && (
           <TrailingIcon className="ml-2 inline-block" aria-hidden="true" />
         )}
+      </>
+    );
+
+    // If href is provided, wrap in Link component
+    if (href) {
+      return (
+        <Comp
+          className={titleClasses}
+          ref={ref}
+          {...accessibilityProps}
+          {...props}
+        >
+          <Link
+            href={href}
+            className="group/title-link no-underline hover:underline"
+          >
+            {titleContent}
+          </Link>
+        </Comp>
+      );
+    }
+
+    // Regular title without link
+    return (
+      <Comp
+        className={titleClasses}
+        ref={ref}
+        {...accessibilityProps}
+        {...props}
+      >
+        {titleContent}
       </Comp>
     );
   },

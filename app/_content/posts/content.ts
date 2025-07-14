@@ -5,6 +5,7 @@ import { IContentGroup } from '@/app/[topic]/_constants/content-types';
 const CONTENT: IContentGroup = {
   title: 'Posts',
   Icon: Book,
+  href: '/posts',
   items: [
     {
       title: 'Security in the vibe-coding age—how I hacked Series.so',

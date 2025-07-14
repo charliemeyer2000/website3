@@ -5,6 +5,7 @@ import { IContentGroup } from '@/app/[topic]/_constants/content-types';
 const CONTENT: IContentGroup = {
   title: 'Contact',
   Icon: AtSign,
+  href: '/contact',
   items: [
     {
       title: 'Email',

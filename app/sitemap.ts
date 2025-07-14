@@ -2,6 +2,8 @@ import { existsSync, readdirSync } from 'fs';
 import type { MetadataRoute } from 'next';
 import { join } from 'path';
 
+import { filterPrivateContent } from '@/app/[topic]/_utils/visibility-utils';
+
 const BASE_URL = 'https://charliemeyer.xyz';
 
 /**
@@ -40,10 +42,13 @@ async function getTopicSlugs(topic: string): Promise<string[]> {
     const { default: content } = await import(
       `@/app/_content/${topic}/content`
     );
+
+    // Filter out private content
+    const filteredContent = filterPrivateContent(content, topic);
     const slugs: string[] = [];
 
-    if (content.items) {
-      for (const item of content.items) {
+    if (filteredContent.items) {
+      for (const item of filteredContent.items) {
         // Only include internal links (not external ones)
         if (item.href && !item.external && item.href.startsWith('/')) {
           // Extract slug from href (e.g., "/posts/readme" -> "readme")

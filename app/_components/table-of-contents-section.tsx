@@ -10,13 +10,21 @@ import { IContentGroup } from '../[topic]/_constants/content-types';
 
 interface ITableOfContentsSectionProps {
   group: IContentGroup;
+  href?: string;
 }
 
-const TableOfContentsSection = ({ group }: ITableOfContentsSectionProps) => {
+const TableOfContentsSection = ({
+  group,
+  href,
+}: ITableOfContentsSectionProps) => {
   return (
     <div className={cn('flex flex-col gap-2')}>
       <div className="flex flex-row items-start justify-between gap-2">
-        <Title className="mb-0 text-sm font-medium" level={TextLevel.H6}>
+        <Title
+          className="mb-0 text-sm font-medium"
+          level={TextLevel.H6}
+          href={href}
+        >
           {group.title}
         </Title>
         <group.Icon className="mt-0.5 size-4" />

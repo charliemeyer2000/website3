@@ -7,6 +7,7 @@ import { TextLevel } from '@/components/intuitive-ui/(native)/(typography)/typog
 import TableOfContentsSection from '@/app/_components/table-of-contents-section';
 
 import { IContentGroup } from './_constants/content-types';
+import { filterPrivateContent } from './_utils/visibility-utils';
 
 interface ITopicPageProps {
   params: Promise<{
@@ -55,12 +56,15 @@ export default async function TopicPage({ params }: ITopicPageProps) {
     notFound();
   }
 
+  // Filter out private content
+  const filteredContent = filterPrivateContent(topicContent, topic);
+
   return (
     <div className="mx-auto flex w-full max-w-4xl grow flex-col gap-12 px-4 pt-8 pb-12 md:py-12">
       <Link href="/">
         <Title level={TextLevel.H1}>{topic}</Title>
       </Link>
-      <TableOfContentsSection group={topicContent} />
+      <TableOfContentsSection group={filteredContent} />
     </div>
   );
 }

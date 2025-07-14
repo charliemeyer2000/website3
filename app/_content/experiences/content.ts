@@ -5,6 +5,7 @@ import { IContentGroup } from '@/app/[topic]/_constants/content-types';
 const CONTENT: IContentGroup = {
   title: 'Experiences',
   Icon: Briefcase,
+  href: '/experiences',
   items: [
     {
       title: 'Neo Spring in SF Program',
