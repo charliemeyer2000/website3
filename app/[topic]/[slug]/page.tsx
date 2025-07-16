@@ -1,4 +1,5 @@
 import type React from 'react';
+import type { Metadata } from 'next';
 
 import { notFound } from 'next/navigation';
 
@@ -16,6 +17,58 @@ interface IBlogPostPageProps {
     topic: string;
     slug: string;
   }>;
+}
+
+export async function generateMetadata({ params }: IBlogPostPageProps): Promise<Metadata> {
+  const { topic, slug } = await params;
+
+  let title = 'Charlie Meyer';
+  let description = 'infrastructure, ai, llms, and safety.';
+
+  try {
+    // Check for config-driven content first
+    if (hasConfigDrivenContent(topic, slug)) {
+      const { config } = await loadConfigDrivenContent(topic, slug);
+      title = config.title || title;
+      description = config.description || description;
+    } else {
+      // Fallback to markdown post
+      const post = await getPostData(topic, slug);
+      title = post.title || title;
+      description = post.description || description;
+    }
+  } catch {
+    // If post not found, return default metadata
+    return {
+      title: 'Post Not Found - Charlie Meyer',
+      description: 'The requested blog post could not be found.',
+    };
+  }
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'article',
+      url: `https://charliemeyer.xyz/${topic}/${slug}`,
+      images: [
+        {
+          url: `https://charliemeyer.xyz/${topic}/${slug}/opengraph-image`,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [`https://charliemeyer.xyz/${topic}/${slug}/opengraph-image`],
+    },
+  };
 }
 
 /**
