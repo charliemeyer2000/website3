@@ -64,7 +64,7 @@ export async function generateMetadata({
       url: `${baseUrl}/${topic}/${slug}`,
       images: [
         {
-          url: `${baseUrl}/${topic}/${slug}/opengraph-image`,
+          url: `${baseUrl}/${topic}/${slug}/opengraph-image?title=${encodeURIComponent(title)}`,
           width: 1200,
           height: 630,
           alt: title,
@@ -75,7 +75,7 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title,
       description,
-      images: [`${baseUrl}/${topic}/${slug}/opengraph-image`],
+      images: [`${baseUrl}/${topic}/${slug}/opengraph-image?title=${encodeURIComponent(title)}`],
     },
   };
 }

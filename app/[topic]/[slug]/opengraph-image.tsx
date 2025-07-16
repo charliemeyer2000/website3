@@ -12,15 +12,17 @@ export const contentType = 'image/png';
 
 export default async function Image({
   params,
+  searchParams,
 }: {
   params: Promise<{ topic: string; slug: string }>;
+  searchParams: Promise<{ title?: string }>;
 }) {
   const { slug } = await params;
+  const { title: titleParam } = await searchParams;
 
-  // For edge runtime, we'll use a simpler approach
-  // Convert slug to title format
-  let title = 'Charlie Meyer';
-  if (slug) {
+  // Use the title from searchParams if available, otherwise generate from slug
+  let title = titleParam || 'Charlie Meyer';
+  if (!titleParam && slug) {
     title = slug
       .split('-')
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
