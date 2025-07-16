@@ -1,11 +1,11 @@
-import { ImageResponse } from 'next/og';
 import { notFound } from 'next/navigation';
+import { ImageResponse } from 'next/og';
 
-import { getPostData } from '@/app/[topic]/_utils/markdown-utils';
 import {
   hasConfigDrivenContent,
   loadConfigDrivenContent,
 } from '@/app/[topic]/_utils/content-utils';
+import { getPostData } from '@/app/[topic]/_utils/markdown-utils';
 
 export const runtime = 'edge';
 
@@ -106,6 +106,6 @@ export default async function Image({
     ),
     {
       ...size,
-    }
+    },
   );
 }

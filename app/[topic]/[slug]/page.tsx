@@ -1,6 +1,6 @@
 import type React from 'react';
-import type { Metadata } from 'next';
 
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { getPostData } from '@/app/[topic]/_utils/markdown-utils';
@@ -19,7 +19,9 @@ interface IBlogPostPageProps {
   }>;
 }
 
-export async function generateMetadata({ params }: IBlogPostPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: IBlogPostPageProps): Promise<Metadata> {
   const { topic, slug } = await params;
 
   let title = 'Charlie Meyer';
