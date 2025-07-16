@@ -44,7 +44,7 @@ export async function generateMetadata({
     if (slug) {
       title = slug
         .split('-')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
     }
   }
