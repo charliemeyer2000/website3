@@ -1,11 +1,4 @@
-import { notFound } from 'next/navigation';
 import { ImageResponse } from 'next/og';
-
-import {
-  hasConfigDrivenContent,
-  loadConfigDrivenContent,
-} from '@/app/[topic]/_utils/content-utils';
-import { getPostData } from '@/app/[topic]/_utils/markdown-utils';
 
 export const runtime = 'edge';
 
@@ -22,27 +15,19 @@ export default async function Image({
 }: {
   params: Promise<{ topic: string; slug: string }>;
 }) {
-  const { topic, slug } = await params;
+  const { slug } = await params;
 
+  // For edge runtime, we'll use a simpler approach
+  // Convert slug to title format
   let title = 'Charlie Meyer';
-  let description = 'infrastructure, ai, llms, and safety.';
-
-  try {
-    // First check for config-driven content
-    if (hasConfigDrivenContent(topic, slug)) {
-      const { config } = await loadConfigDrivenContent(topic, slug);
-      title = config.title || title;
-      description = config.description || description;
-    } else {
-      // Fallback to markdown post
-      const post = await getPostData(topic, slug);
-      title = post.title || title;
-      description = post.description || description;
-    }
-  } catch {
-    // If post not found, return 404
-    notFound();
+  if (slug) {
+    title = slug
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
   }
+
+  const description = 'infrastructure, ai, llms, and safety.';
 
   return new ImageResponse(
     (

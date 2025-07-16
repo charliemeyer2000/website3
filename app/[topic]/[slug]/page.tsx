@@ -40,11 +40,13 @@ export async function generateMetadata({
       description = post.description || description;
     }
   } catch {
-    // If post not found, return default metadata
-    return {
-      title: 'Post Not Found - Charlie Meyer',
-      description: 'The requested blog post could not be found.',
-    };
+    // If post not found, generate title from slug
+    if (slug) {
+      title = slug
+        .split('-')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    }
   }
 
   return {
