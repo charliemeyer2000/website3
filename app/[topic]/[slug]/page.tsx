@@ -49,6 +49,11 @@ export async function generateMetadata({
     }
   }
 
+  // Use environment variables for flexible URL handling
+  const baseUrl = process.env.VERCEL_URL 
+    ? `https://${process.env.VERCEL_URL}`
+    : process.env.NEXT_PUBLIC_BASE_URL || 'https://charliemeyer.xyz';
+
   return {
     title,
     description,
@@ -56,10 +61,10 @@ export async function generateMetadata({
       title,
       description,
       type: 'article',
-      url: `https://charliemeyer.xyz/${topic}/${slug}`,
+      url: `${baseUrl}/${topic}/${slug}`,
       images: [
         {
-          url: `https://charliemeyer.xyz/${topic}/${slug}/opengraph-image`,
+          url: `${baseUrl}/${topic}/${slug}/opengraph-image`,
           width: 1200,
           height: 630,
           alt: title,
@@ -70,7 +75,7 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title,
       description,
-      images: [`https://charliemeyer.xyz/${topic}/${slug}/opengraph-image`],
+      images: [`${baseUrl}/${topic}/${slug}/opengraph-image`],
     },
   };
 }
