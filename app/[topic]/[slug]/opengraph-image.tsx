@@ -1,5 +1,4 @@
 import { ImageResponse } from 'next/og';
-import { NextRequest } from 'next/server';
 
 export const runtime = 'edge';
 
@@ -12,21 +11,11 @@ export const size = {
 export const contentType = 'image/png';
 
 export default async function Image(
-  request: NextRequest,
-  { params }: { params: Promise<{ topic: string; slug: string }> },
+  { params }: { params: Promise<{ title: string }> },
 ) {
-  const { slug } = await params;
-  const searchParams = request.nextUrl.searchParams;
-  const titleParam = searchParams.get('title');
+  const { title } = await params;
 
-  // Use the title from searchParams if available, otherwise generate from slug
-  let title = titleParam || 'Charlie Meyer';
-  if (!titleParam && slug) {
-    title = slug
-      .split('-')
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-  }
+  const currentTitle = title || 'Charlie Meyer';
 
   const description = 'infrastructure, ai, llms, and safety.';
 
@@ -63,7 +52,7 @@ export default async function Image(
               fontFamily: 'Inter',
             }}
           >
-            {title}
+            {currentTitle}
           </div>
           <div
             style={{
