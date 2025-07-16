@@ -15,10 +15,11 @@ export default async function Image({
   searchParams,
 }: {
   params: Promise<{ topic: string; slug: string }>;
-  searchParams: Promise<{ title?: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { slug } = await params;
-  const { title: titleParam } = await searchParams;
+  const searchParamsResolved = await searchParams;
+  const titleParam = searchParamsResolved.title as string | undefined;
 
   // Use the title from searchParams if available, otherwise generate from slug
   let title = titleParam || 'Charlie Meyer';
