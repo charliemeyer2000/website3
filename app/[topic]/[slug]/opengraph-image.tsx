@@ -11,11 +11,11 @@ export const size = {
 export const contentType = 'image/png';
 
 export default async function Image({
-  params,
+  searchParams,
 }: {
-  params: Promise<{ title: string }>;
+  searchParams: Promise<{ title?: string }>;
 }) {
-  const { title } = await params;
+  const { title } = await searchParams;
 
   const currentTitle = title || 'Charlie Meyer';
 
