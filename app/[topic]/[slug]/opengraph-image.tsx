@@ -13,9 +13,9 @@ export const contentType = 'image/png';
 export default async function Image({
   searchParams,
 }: {
-  searchParams: Promise<{ title?: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const { title } = await searchParams;
+  const title = (await searchParams).title;
 
   const currentTitle = title || 'Charlie Meyer';
 
