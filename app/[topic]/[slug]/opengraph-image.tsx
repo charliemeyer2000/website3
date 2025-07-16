@@ -10,9 +10,11 @@ export const size = {
 
 export const contentType = 'image/png';
 
-export default async function Image(
-  { params }: { params: Promise<{ title: string }> },
-) {
+export default async function Image({
+  params,
+}: {
+  params: Promise<{ title: string }>;
+}) {
   const { title } = await params;
 
   const currentTitle = title || 'Charlie Meyer';
