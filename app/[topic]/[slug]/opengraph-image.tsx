@@ -13,7 +13,7 @@ export const contentType = 'image/png';
 
 export default async function Image(
   request: NextRequest,
-  { params }: { params: Promise<{ topic: string; slug: string }> }
+  { params }: { params: Promise<{ topic: string; slug: string }> },
 ) {
   const { slug } = await params;
   const searchParams = request.nextUrl.searchParams;
