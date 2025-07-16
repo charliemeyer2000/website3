@@ -7,9 +7,6 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const title = searchParams.get('title') || 'Charlie Meyer';
-    const description =
-      searchParams.get('description') ||
-      'infrastructure, ai, llms, and safety.';
 
     return new ImageResponse(
       (
@@ -19,51 +16,89 @@ export async function GET(request: NextRequest) {
             width: '100%',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
+            alignItems: 'flex-start',
             justifyContent: 'center',
-            backgroundColor: '#f8f9fa',
+            backgroundColor: '#ffffff',
             padding: '80px 120px',
+            position: 'relative',
+            fontFamily: 'Geist',
           }}
         >
+          {/* Dashed grid lines - crossing the entire image */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '60px',
+              left: '0',
+              width: '1200px',
+              height: '0px',
+              borderTop: '1px dashed #ebebeb',
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '60px',
+              left: '0',
+              width: '1200px',
+              height: '0px',
+              borderTop: '1px dashed #ebebeb',
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              top: '0',
+              left: '80px',
+              width: '0px',
+              height: '630px',
+              borderLeft: '1px dashed #ebebeb',
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              top: '0',
+              right: '80px',
+              width: '0px',
+              height: '630px',
+              borderLeft: '1px dashed #ebebeb',
+            }}
+          />
+
+          {/* Content */}
           <div
             style={{
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'center',
-              textAlign: 'center',
+              gap: '8px',
               maxWidth: '960px',
             }}
           >
             <div
               style={{
                 fontSize: '64px',
-                fontWeight: 600,
-                color: '#1a1a1a',
+                fontWeight: 500,
+                color: '#000000',
                 lineHeight: 1.2,
-                marginBottom: '32px',
-                fontFamily: 'Inter',
+                letterSpacing: '-0.025em',
+                fontFamily: 'Geist',
+                textAlign: 'left',
               }}
             >
-              {title}
+              {title
+                .split(' ')
+                .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
+                .join(' ')}
             </div>
             <div
               style={{
                 fontSize: '32px',
                 fontWeight: 400,
                 color: '#6b7280',
-                lineHeight: 1.3,
-                fontFamily: 'Inter',
-              }}
-            >
-              {description}
-            </div>
-            <div
-              style={{
-                fontSize: '24px',
-                fontWeight: 400,
-                color: '#9ca3af',
-                marginTop: '48px',
-                fontFamily: 'Inter',
+                lineHeight: 1.2,
+                fontFamily: 'Geist',
+                textAlign: 'left',
               }}
             >
               charlie meyer
