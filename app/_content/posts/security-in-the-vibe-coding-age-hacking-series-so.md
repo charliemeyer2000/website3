@@ -108,7 +108,9 @@ At the time of writing this, I have yet to receive a bug bounty from the Series 
 
 - **5:05PM:** I called the engineering team to help fix the vulnerability.
 
-_TODO: incomplete - they haven't fixed this one yet_.
+7/16/25:
+
+- **~5:00PM:** Vulnerability fixed.
 
 ## Examples
 
