@@ -74,7 +74,7 @@ Finally, I want to clarify _why_ I did this—pure curiosity. I care deeply abou
 
 ## Conclusion
 
-Thanks to the many people who have supported me through this process of responsible disclosure and writing this report. Your feedback and advice have been invaluable.
+Thanks to the many people who have supported me through this process of responsible disclosure and writing this report. Your feedback and advice have been invaluable. Thank you to the Series team for being receptive to my feedback and hopping on multiple calls to fix the vulnerabilities.
 
 At the time of writing this, I have yet to receive a bug bounty from the Series team.
 
