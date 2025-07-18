@@ -8,8 +8,8 @@ const CONTENT: IContentGroup = {
   href: '/posts',
   items: [
     {
-      title: 'Security in the vibe-coding age—how I hacked Series.so',
-      href: '/posts/series-so-security-vulnerability',
+      title: 'Security in the Vibe-Coding Age — Hacking Series.so',
+      href: '/posts/security-in-the-vibe-coding-age-hacking-series-so',
       Icon: ShieldAlert,
     },
     {
