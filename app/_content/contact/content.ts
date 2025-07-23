@@ -1,4 +1,4 @@
-import { AtSign, Linkedin, Mail, Twitter } from 'lucide-react';
+import { AtSign, Github, Linkedin, Mail, Twitter } from 'lucide-react';
 
 import { IContentGroup } from '@/app/[topic]/_constants/content-types';
 
@@ -23,6 +23,11 @@ const CONTENT: IContentGroup = {
       href: 'https://x.com/charlie_meyer_',
       Icon: Twitter,
       external: true,
+    },
+    {
+      title: 'GitHub',
+      href: 'https://github.com/charliemeyer2000',
+      Icon: Github,
     },
   ],
 };
