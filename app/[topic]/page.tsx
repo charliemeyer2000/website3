@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 import { Title } from "@/components/intuitive-ui/(native)/(typography)/title";
 import { TextLevel } from "@/components/intuitive-ui/(native)/(typography)/typography-enums";
 
-import Clock from "@/app/_components/clock";
+import Footer from "@/app/_components/footer";
 import TableOfContentsSection from "@/app/_components/table-of-contents-section";
 
 import { IContentGroup } from "./_constants/content-types";
@@ -117,19 +117,7 @@ export default async function TopicPage({ params }: ITopicPageProps) {
         </div>
         <TableOfContentsSection group={filteredContent} />
       </div>
-      <div className="text-muted-foreground mt-auto flex w-full items-center justify-between pt-12 text-xs sm:text-sm">
-        <p>San Francisco, Ca</p>
-        <div className="flex items-center gap-1.5 sm:gap-2">
-          <p>
-            {new Date().toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </p>
-          <Clock />
-        </div>
-      </div>
+      <Footer variant="inline" />
     </div>
   );
 }
