@@ -1,17 +1,17 @@
-import fs from 'fs';
-import matter from 'gray-matter';
-import path from 'path';
-import rehypeSlug from 'rehype-slug';
-import rehypeStringify from 'rehype-stringify';
-import { remark } from 'remark';
-import remarkRehype from 'remark-rehype';
+import fs from "fs";
+import matter from "gray-matter";
+import path from "path";
+import rehypeSlug from "rehype-slug";
+import rehypeStringify from "rehype-stringify";
+import { remark } from "remark";
+import remarkRehype from "remark-rehype";
 
 import {
   IContentConfig,
   IContentMarkdown,
-} from '@/app/[topic]/_constants/content-types';
+} from "@/app/[topic]/_constants/content-types";
 
-import { ContentType } from '../_constants/content-enums';
+import { ContentType } from "../_constants/content-enums";
 
 export interface IConfigDrivenContent {
   config: IContentConfig;
@@ -24,11 +24,11 @@ export interface IConfigDrivenContent {
 export function hasConfigDrivenContent(topic: string, slug: string): boolean {
   const configPath = path.join(
     process.cwd(),
-    'app',
-    '_content',
+    "app",
+    "_content",
     topic,
     slug,
-    'config.ts',
+    "config.ts",
   );
   return fs.existsSync(configPath);
 }
@@ -72,11 +72,11 @@ async function _processConfigContent(
    */
   const markdownDir = path.join(
     process.cwd(),
-    'app',
-    '_content',
+    "app",
+    "_content",
     topic,
     slug,
-    'markdown',
+    "markdown",
   );
   const compiledMarkdown: Record<string, string> = {};
 
@@ -89,7 +89,7 @@ async function _processConfigContent(
       .map(async ({ id }) => {
         const rawMarkdown = fs.readFileSync(
           path.join(markdownDir, `${id}.md`),
-          'utf8',
+          "utf8",
         );
         const { content } = matter(rawMarkdown);
         const htmlContent = await remark()
@@ -105,4 +105,40 @@ async function _processConfigContent(
     config,
     compiledMarkdown,
   };
+}
+
+/**
+ * Get all config-driven content slugs for static generation
+ */
+export async function getAllContentSlugs(): Promise<
+  Array<{ topic: string; slug: string }>
+> {
+  const slugs: Array<{ topic: string; slug: string }> = [];
+  const contentDir = path.join(process.cwd(), "app", "_content");
+
+  if (!fs.existsSync(contentDir)) {
+    return slugs;
+  }
+
+  const topics = fs
+    .readdirSync(contentDir, { withFileTypes: true })
+    .filter((dirent) => dirent.isDirectory())
+    .map((dirent) => dirent.name);
+
+  for (const topic of topics) {
+    const topicPath = path.join(contentDir, topic);
+    const items = fs
+      .readdirSync(topicPath, { withFileTypes: true })
+      .filter((dirent) => dirent.isDirectory())
+      .map((dirent) => dirent.name);
+
+    for (const slug of items) {
+      // Check if this is a config-driven article by looking for config.ts
+      if (hasConfigDrivenContent(topic, slug)) {
+        slugs.push({ topic, slug });
+      }
+    }
+  }
+
+  return slugs;
 }
