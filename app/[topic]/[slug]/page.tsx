@@ -1,16 +1,17 @@
-import type React from 'react';
+import type React from "react";
 
-import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
-import { getPostData } from '@/app/[topic]/_utils/markdown-utils';
+import { getPostData, getAllPosts } from "@/app/[topic]/_utils/markdown-utils";
 
 import {
   hasConfigDrivenContent,
   loadConfigDrivenContent,
-} from '../_utils/content-utils';
-import { ConfigDrivenContent } from './_components/config-driven-content';
-import { MarkdownOnlyContent } from './_components/markdown-only-content';
+  getAllContentSlugs,
+} from "../_utils/content-utils";
+import { ConfigDrivenContent } from "./_components/config-driven-content";
+import { MarkdownOnlyContent } from "./_components/markdown-only-content";
 
 interface IBlogPostPageProps {
   params: Promise<{
@@ -24,8 +25,8 @@ export async function generateMetadata({
 }: IBlogPostPageProps): Promise<Metadata> {
   const { topic, slug } = await params;
 
-  let title = 'Charlie Meyer';
-  let description = 'infrastructure, ai, llms, and safety.';
+  let title = "Charlie Meyer";
+  let description = "infrastructure, ai, llms, and safety.";
 
   try {
     // Check for config-driven content first
@@ -43,16 +44,16 @@ export async function generateMetadata({
     // If post not found, generate title from slug
     if (slug) {
       title = slug
-        .split('-')
+        .split("-")
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
+        .join(" ");
     }
   }
 
   // Use environment variables for flexible URL handling
   const baseUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
-    : process.env.NEXT_PUBLIC_BASE_URL || 'https://charliemeyer.xyz';
+    : process.env.NEXT_PUBLIC_BASE_URL || "https://charliemeyer.xyz";
 
   // Generate OpenGraph image URL with parameters
   const ogParams = new URLSearchParams({
@@ -67,7 +68,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      type: 'article',
+      type: "article",
       url: `${baseUrl}/${topic}/${slug}`,
       images: [
         {
@@ -79,12 +80,36 @@ export async function generateMetadata({
       ],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title,
       description,
       images: [ogImageUrl],
     },
   };
+}
+
+export async function generateStaticParams() {
+  const params = [];
+
+  // Get all markdown posts
+  const posts = await getAllPosts();
+  for (const post of posts) {
+    params.push({
+      topic: post.topic,
+      slug: post.slug,
+    });
+  }
+
+  // Get all config-driven content
+  const contentSlugs = await getAllContentSlugs();
+  for (const { topic, slug } of contentSlugs) {
+    params.push({
+      topic,
+      slug,
+    });
+  }
+
+  return params;
 }
 
 /**

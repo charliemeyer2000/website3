@@ -1,19 +1,43 @@
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import fs from "fs";
+import path from "path";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
-import { Title } from '@/components/intuitive-ui/(native)/(typography)/title';
-import { TextLevel } from '@/components/intuitive-ui/(native)/(typography)/typography-enums';
+import { Title } from "@/components/intuitive-ui/(native)/(typography)/title";
+import { TextLevel } from "@/components/intuitive-ui/(native)/(typography)/typography-enums";
 
-import Clock from '@/app/_components/clock';
-import TableOfContentsSection from '@/app/_components/table-of-contents-section';
+import Clock from "@/app/_components/clock";
+import TableOfContentsSection from "@/app/_components/table-of-contents-section";
 
-import { IContentGroup } from './_constants/content-types';
-import { filterPrivateContent } from './_utils/visibility-utils';
+import { IContentGroup } from "./_constants/content-types";
+import { filterPrivateContent } from "./_utils/visibility-utils";
 
 interface ITopicPageProps {
   params: Promise<{
     topic: string;
   }>;
+}
+
+export async function generateStaticParams() {
+  const contentDir = path.join(process.cwd(), "app", "_content");
+
+  if (!fs.existsSync(contentDir)) {
+    return [];
+  }
+
+  // Get all directories that contain a content.ts file
+  const topics = fs
+    .readdirSync(contentDir, { withFileTypes: true })
+    .filter((dirent) => dirent.isDirectory())
+    .map((dirent) => dirent.name)
+    .filter((topic) => {
+      const contentPath = path.join(contentDir, topic, "content.ts");
+      return fs.existsSync(contentPath);
+    });
+
+  return topics.map((topic) => ({
+    topic,
+  }));
 }
 
 /**
@@ -27,7 +51,7 @@ async function loadTopicContent(topic: string): Promise<IContentGroup | null> {
     return null;
   }
   // Optionally, explicitly skip known non-topic files
-  if (topic === 'favicon.ico') {
+  if (topic === "favicon.ico") {
     return null;
   }
 
@@ -37,7 +61,7 @@ async function loadTopicContent(topic: string): Promise<IContentGroup | null> {
     )) as { default: IContentGroup };
 
     // Validate that the imported content is valid
-    if (!content || typeof content !== 'object') {
+    if (!content || typeof content !== "object") {
       console.warn(`Invalid content structure for topic: ${topic}`);
       return null;
     }
@@ -47,8 +71,8 @@ async function loadTopicContent(topic: string): Promise<IContentGroup | null> {
     // Handle module not found and other import errors
     if (error instanceof Error) {
       if (
-        error.message.includes('Cannot find module') ||
-        error.message.includes('Module not found')
+        error.message.includes("Cannot find module") ||
+        error.message.includes("Module not found")
       ) {
         // Silently handle missing content modules
         return null;
@@ -97,10 +121,10 @@ export default async function TopicPage({ params }: ITopicPageProps) {
         <p>San Francisco, Ca</p>
         <div className="flex items-center gap-1.5 sm:gap-2">
           <p>
-            {new Date().toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
+            {new Date().toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
             })}
           </p>
           <Clock />
