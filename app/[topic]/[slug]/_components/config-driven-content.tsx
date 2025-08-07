@@ -1,15 +1,15 @@
 import {
   Size,
   Variant,
-} from '@/components/intuitive-ui/(native)/component-enums';
+} from "@/components/intuitive-ui/(native)/component-enums";
 
-import Clock from '@/app/_components/clock';
+import Footer from "@/app/_components/footer";
 
-import { MarkdownRenderer } from '../../_components/markdown-renderer';
-import { ContentType } from '../../_constants/content-enums';
-import { IContentConfig } from '../../_constants/content-types';
-import ContentBreadcrumbs from './content-breadcrumbs';
-import ShareLinkButton from './share-link-button';
+import { MarkdownRenderer } from "../../_components/markdown-renderer";
+import { ContentType } from "../../_constants/content-enums";
+import { IContentConfig } from "../../_constants/content-types";
+import ContentBreadcrumbs from "./content-breadcrumbs";
+import ShareLinkButton from "./share-link-button";
 
 interface IConfigDrivenContentProps {
   topic: string;
@@ -75,19 +75,7 @@ export const ConfigDrivenContent = ({
           size={Size.LG}
         />
       </div>
-      <div className="text-muted-foreground mt-auto flex w-full items-center justify-between pt-12 text-xs sm:text-sm">
-        <p>San Francisco, Ca</p>
-        <div className="flex items-center gap-1.5 sm:gap-2">
-          <p>
-            {new Date().toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })}
-          </p>
-          <Clock />
-        </div>
-      </div>
+      <Footer variant="inline" />
     </article>
   );
 };
