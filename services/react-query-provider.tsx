@@ -1,6 +1,6 @@
 "use client";
 
-import { PropsWithChildren, useEffect, useState } from "react";
+import { PropsWithChildren, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
@@ -18,12 +18,9 @@ export default function ReactQueryProvider({ children }: PropsWithChildren) {
       }),
   );
 
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const isBrowser = typeof window !== "undefined";
 
-  if (!mounted) {
+  if (!isBrowser) {
     return (
       <QueryClientProvider client={client}>{children}</QueryClientProvider>
     );
