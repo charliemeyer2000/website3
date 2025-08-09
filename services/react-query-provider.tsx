@@ -1,7 +1,7 @@
 "use client";
 
-import { PropsWithChildren, useState } from "react";
-import { QueryClient } from "@tanstack/react-query";
+import { PropsWithChildren, useEffect, useState } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 
@@ -17,6 +17,17 @@ export default function ReactQueryProvider({ children }: PropsWithChildren) {
         },
       }),
   );
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <QueryClientProvider client={client}>{children}</QueryClientProvider>
+    );
+  }
 
   const persister = createSyncStoragePersister({
     storage: window.localStorage,
