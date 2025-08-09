@@ -21,7 +21,10 @@ export default function Footer({
           </p>
         </div>
 
-        <div className="absolute right-6 bottom-6 flex items-center gap-1.5 sm:right-16 sm:bottom-2 sm:gap-2">
+        <div
+          className="absolute right-6 bottom-6 flex items-center gap-1.5 sm:right-16 sm:bottom-2 sm:gap-2"
+          suppressHydrationWarning
+        >
           <Clock />
         </div>
       </>
@@ -34,7 +37,10 @@ export default function Footer({
       className={`text-muted-foreground mt-auto flex w-full items-center justify-between pt-12 text-xs sm:text-sm ${className}`}
     >
       <p>San Francisco, Ca</p>
-      <div className="flex items-center gap-1.5 sm:gap-2">
+      <div
+        className="flex items-center gap-1.5 sm:gap-2"
+        suppressHydrationWarning
+      >
         <Clock />
       </div>
     </div>

@@ -1,17 +1,13 @@
-import { Copy } from 'lucide-react';
+import { Copy } from "lucide-react";
 
-import { Button } from '@/components/intuitive-ui/(native)/button';
-import {
-  Size,
-  Variant,
-} from '@/components/intuitive-ui/(native)/component-enums';
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
+} from "@/components/ui/tooltip";
 
-import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard';
+import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 
 const CopyCodeButton = ({ content }: { content: string }) => {
   const { handleCopy } = useCopyToClipboard(content);
@@ -20,9 +16,8 @@ const CopyCodeButton = ({ content }: { content: string }) => {
     <Tooltip>
       <TooltipTrigger asChild>
         <Button
-          variant={Variant.GHOST}
-          size={Size.XXS}
-          icon
+          variant="ghost"
+          size="icon"
           onClick={() => {
             handleCopy();
           }}

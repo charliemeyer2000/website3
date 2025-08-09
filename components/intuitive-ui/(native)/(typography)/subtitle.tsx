@@ -1,47 +1,46 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { type VariantProps, cva } from 'class-variance-authority';
+import { type VariantProps, cva } from "class-variance-authority";
 
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
-import { Size } from '../component-enums';
-import { TextLevel, TextTransform } from './typography-enums';
+import type { TextLevel as LevelTag, TextTransform } from "./typography-enums";
 
 const subtitleVariants = cva(
-  'tracking-tight break-words mb-4 flex items-center gap-2',
+  "tracking-tight break-words mb-4 flex items-center gap-2",
   {
     variants: {
       level: {
-        [TextLevel.H1]: 'text-3xl text-foreground',
-        [TextLevel.H2]: 'text-2xl text-foreground',
-        [TextLevel.H3]: 'text-xl text-foreground',
-        [TextLevel.H4]: 'text-lg text-muted-foreground',
-        [TextLevel.H5]: 'text-base text-muted-foreground',
-        [TextLevel.H6]: 'text-sm text-muted-foreground',
-        [TextLevel.P]: 'text-base text-muted-foreground',
-        [TextLevel.SPAN]: 'inline text-muted-foreground',
+        h1: "text-3xl text-foreground",
+        h2: "text-2xl text-foreground",
+        h3: "text-xl text-foreground",
+        h4: "text-lg text-muted-foreground",
+        h5: "text-base text-muted-foreground",
+        h6: "text-sm text-muted-foreground",
+        p: "text-base text-muted-foreground",
+        span: "inline text-muted-foreground",
       },
       size: {
-        [Size.XXS]: 'text-xs',
-        [Size.XS]: 'text-sm',
-        [Size.SM]: 'text-base',
-        [Size.MD]: 'text-lg',
-        [Size.LG]: 'text-xl',
-        [Size.XL]: 'text-2xl',
-        [Size.XXL]: 'text-3xl',
-        [Size.XXXL]: 'text-4xl [&_svg]:size-6',
+        xxs: "text-xs",
+        xs: "text-sm",
+        sm: "text-base",
+        md: "text-lg",
+        lg: "text-xl",
+        xl: "text-2xl",
+        xxl: "text-3xl",
+        xxxl: "text-4xl [&_svg]:size-6",
       },
       transform: {
-        [TextTransform.UPPERCASE]: 'uppercase',
-        [TextTransform.LOWERCASE]: 'lowercase',
-        [TextTransform.CAPITALIZE]: 'capitalize',
+        uppercase: "uppercase",
+        lowercase: "lowercase",
+        capitalize: "capitalize",
       },
-      srOnly: { true: 'sr-only' },
-      pretty: { true: 'text-pretty' },
-      balance: { true: 'text-balance' },
+      srOnly: { true: "sr-only" },
+      pretty: { true: "text-pretty" },
+      balance: { true: "text-balance" },
     },
     defaultVariants: {
-      level: TextLevel.H4,
+      level: "h4",
       srOnly: false,
       pretty: false,
       balance: false,
@@ -62,6 +61,8 @@ export interface SubtitleProps
   isSectionHeading?: boolean;
   /** For accessibility, override the heading level for screen readers */
   ariaLevel?: number;
+  level?: LevelTag;
+  transform?: TextTransform;
 }
 
 const Subtitle = React.forwardRef<
@@ -71,7 +72,7 @@ const Subtitle = React.forwardRef<
   (
     {
       className,
-      level = TextLevel.H4,
+      level = "h4",
       size,
       transform,
       srOnly,
@@ -88,7 +89,7 @@ const Subtitle = React.forwardRef<
   ) => {
     if (balance && pretty) {
       throw new Error(
-        'balance and pretty cannot be used together. please use one or the other.',
+        "balance and pretty cannot be used together. please use one or the other.",
       );
     }
     // Determine the component to render
@@ -98,9 +99,9 @@ const Subtitle = React.forwardRef<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const accessibilityProps: Record<string, any> = {};
     if (isSectionHeading) {
-      accessibilityProps.role = 'heading';
-      accessibilityProps['aria-level'] =
-        ariaLevel || (level === TextLevel.P ? 2 : undefined);
+      accessibilityProps.role = "heading";
+      accessibilityProps["aria-level"] =
+        ariaLevel || (level === "p" ? 2 : undefined);
     }
 
     return (
@@ -131,6 +132,6 @@ const Subtitle = React.forwardRef<
     );
   },
 );
-Subtitle.displayName = 'Subtitle';
+Subtitle.displayName = "Subtitle";
 
 export { Subtitle, subtitleVariants };

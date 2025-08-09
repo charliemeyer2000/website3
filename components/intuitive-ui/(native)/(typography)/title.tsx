@@ -1,48 +1,47 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { type VariantProps, cva } from 'class-variance-authority';
-import Link from 'next/link';
+import { type VariantProps, cva } from "class-variance-authority";
+import Link from "next/link";
 
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
-import { Size } from '../component-enums';
-import { TextLevel, TextTransform } from './typography-enums';
+import type { TextLevel as LevelTag, TextTransform } from "./typography-enums";
 
 const titleVariants = cva(
-  'tracking-tight break-words font-medium flex items-center mb-2',
+  "tracking-tight break-words font-medium flex items-center mb-2",
   {
     variants: {
       level: {
-        [TextLevel.H1]: 'text-4xl [&_svg]:size-7.5',
-        [TextLevel.H2]: 'text-3xl',
-        [TextLevel.H3]: 'text-2xl [&_svg]:size-5.5',
-        [TextLevel.H4]: 'text-xl',
-        [TextLevel.H5]: 'text-lg',
-        [TextLevel.H6]: 'text-base',
-        [TextLevel.P]: 'text-base',
-        [TextLevel.SPAN]: 'inline',
+        h1: "text-4xl [&_svg]:size-7.5",
+        h2: "text-3xl",
+        h3: "text-2xl [&_svg]:size-5.5",
+        h4: "text-xl",
+        h5: "text-lg",
+        h6: "text-base",
+        p: "text-base",
+        span: "inline",
       },
       size: {
-        [Size.XXS]: 'text-xs',
-        [Size.XS]: 'text-sm',
-        [Size.SM]: 'text-base',
-        [Size.MD]: 'text-lg',
-        [Size.LG]: 'text-xl',
-        [Size.XL]: 'text-2xl [&_svg]:size-5.5',
-        [Size.XXL]: 'text-3xl',
-        [Size.XXXL]: 'text-4xl [&_svg]:size-7.5',
+        xxs: "text-xs",
+        xs: "text-sm",
+        sm: "text-base",
+        md: "text-lg",
+        lg: "text-xl",
+        xl: "text-2xl [&_svg]:size-5.5",
+        xxl: "text-3xl",
+        xxxl: "text-4xl [&_svg]:size-7.5",
       },
       transform: {
-        [TextTransform.UPPERCASE]: 'uppercase',
-        [TextTransform.LOWERCASE]: 'lowercase',
-        [TextTransform.CAPITALIZE]: 'capitalize',
+        uppercase: "uppercase",
+        lowercase: "lowercase",
+        capitalize: "capitalize",
       },
-      srOnly: { true: 'sr-only' },
-      pretty: { true: 'text-pretty' },
-      balance: { true: 'text-balance' },
+      srOnly: { true: "sr-only" },
+      pretty: { true: "text-pretty" },
+      balance: { true: "text-balance" },
     },
     defaultVariants: {
-      level: TextLevel.H1,
+      level: "h1",
       srOnly: false,
       pretty: false,
       balance: false,
@@ -65,6 +64,8 @@ export interface TitleProps
   ariaLevel?: number;
   /** Optional href to make the title a link */
   href?: string;
+  level?: LevelTag;
+  transform?: TextTransform;
 }
 
 const Title = React.forwardRef<
@@ -74,7 +75,7 @@ const Title = React.forwardRef<
   (
     {
       className,
-      level = TextLevel.H1,
+      level = "h1",
       size,
       transform,
       srOnly,
@@ -92,7 +93,7 @@ const Title = React.forwardRef<
   ) => {
     if (balance && pretty) {
       throw new Error(
-        'balance and pretty cannot be used together. please use one or the other.',
+        "balance and pretty cannot be used together. please use one or the other.",
       );
     }
 
@@ -103,9 +104,9 @@ const Title = React.forwardRef<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const accessibilityProps: Record<string, any> = {};
     if (isSectionHeading) {
-      accessibilityProps.role = 'heading';
-      accessibilityProps['aria-level'] =
-        ariaLevel || (level === TextLevel.P ? 2 : undefined);
+      accessibilityProps.role = "heading";
+      accessibilityProps["aria-level"] =
+        ariaLevel || (level === "p" ? 2 : undefined);
     }
 
     const titleClasses = cn(
@@ -164,6 +165,6 @@ const Title = React.forwardRef<
     );
   },
 );
-Title.displayName = 'Title';
+Title.displayName = "Title";
 
 export { Title, titleVariants };
