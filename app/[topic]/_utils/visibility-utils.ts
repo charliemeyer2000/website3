@@ -1,6 +1,5 @@
-import { IContentGroup } from '../_constants/content-types';
-import { hasConfigDrivenContent } from './content-utils';
-import { isPostPrivate } from './markdown-utils';
+import { IContentGroup } from "../_constants/content-types";
+import { isPostPrivate } from "./markdown-utils";
 
 /**
  * Filters out private content items from a content group
@@ -11,16 +10,11 @@ export function filterPrivateContent(
 ): IContentGroup {
   const filteredItems = group.items.filter((item) => {
     // Extract slug from href (e.g., '/posts/my-post' -> 'my-post')
-    const slug = item.href.split('/').pop();
+    const slug = item.href.split("/").pop();
     if (!slug) return true;
 
-    // Check if it's a markdown post
-    if (!hasConfigDrivenContent(topic, slug)) {
-      return !isPostPrivate(topic, slug);
-    }
-
-    // For config-driven content, include by default (no visibility check yet)
-    return true;
+    // Only include non-private markdown posts
+    return !isPostPrivate(topic, slug);
   });
 
   return {

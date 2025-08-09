@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import useServerAction from '@/hooks/use-server-action';
+import { useMutation } from "@tanstack/react-query";
 
-import { createOrUpdateViewCount } from '../_actions/view-actions';
+import { createOrUpdateViewCount } from "../_actions/view-actions";
 
 interface IViewCounterProps {
   topic: string;
@@ -14,32 +14,25 @@ interface IViewCounterProps {
 const ViewCounter: React.FC<IViewCounterProps> = ({ topic, slug }) => {
   const [viewCount, setViewCount] = useState<number>(0);
 
-  const [trackView, isLoading] = useServerAction({
-    action: createOrUpdateViewCount,
-    onSuccess: {
-      action: ({ response }) => {
-        if (response) {
-          setViewCount(response.viewCount);
-        }
-      },
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["view-count", topic, slug],
+    mutationFn: createOrUpdateViewCount,
+    onSuccess: (data) => {
+      setViewCount(data.viewCount);
     },
-    onError: {
-      title: 'Failed to track view',
-    },
-    options: {
-      showToasts: false,
-      useGlobalLoader: false,
+    onError: () => {
+      // Silently ignore for UX parity with previous code
     },
   });
 
   useEffect(() => {
-    trackView({ topic, slug });
+    mutate({ topic, slug });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug, topic]);
 
   return (
     <div className="text-muted-foreground flex flex-row items-center text-sm">
-      <span className="tabular-nums">{isLoading ? '—' : viewCount}</span>
+      <span className="tabular-nums">{isPending ? "—" : viewCount}</span>
       <span className="ml-1">views</span>
     </div>
   );

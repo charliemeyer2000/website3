@@ -1,12 +1,10 @@
-'use server';
+"use server";
 
-import { sql } from 'drizzle-orm';
+import { sql } from "drizzle-orm";
 
-import type { ServerActionResponse } from '@/hooks/use-server-action';
-
-import { db } from '@/db';
-import { pageViews } from '@/db/db-schema';
-import { contentTopicEnum } from '@/db/enums';
+import { db } from "@/db";
+import { pageViews } from "@/db/db-schema";
+import { contentTopicEnum } from "@/db/enums";
 
 interface IViewCountData {
   viewCount: number;
@@ -22,17 +20,10 @@ export async function createOrUpdateViewCount({
 }: {
   topic: string;
   slug: string;
-}): Promise<ServerActionResponse<IViewCountData>> {
+}): Promise<IViewCountData> {
   try {
     if (!contentTopicEnum.enumValues.includes(topic as ContentTopic)) {
-      return {
-        status: 'error',
-        data: null,
-        error: {
-          code: 'INVALID_TOPIC',
-          message: 'Invalid topic provided',
-        },
-      };
+      throw new Error("Invalid topic provided");
     }
 
     const [result] = await db
@@ -53,24 +44,14 @@ export async function createOrUpdateViewCount({
       .returning();
 
     return {
-      status: 'success',
-      data: {
-        viewCount: result.viewCount,
-        topic: result.topic,
-        slug: result.slug,
-      },
-      error: null,
+      viewCount: result.viewCount,
+      topic: result.topic,
+      slug: result.slug,
     };
   } catch (error) {
-    console.error('Failed to create/update view count:', error);
-    return {
-      status: 'error',
-      data: null,
-      error: {
-        code: 'DATABASE_ERROR',
-        message: 'Failed to update view count',
-        details: error instanceof Error ? { message: error.message } : {},
-      },
-    };
+    console.error("Failed to create/update view count:", error);
+    throw new Error(
+      error instanceof Error ? error.message : "Failed to update view count",
+    );
   }
 }
