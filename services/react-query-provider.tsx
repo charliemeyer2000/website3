@@ -1,10 +1,30 @@
 "use client";
 
 import { PropsWithChildren, useState } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 
 export default function ReactQueryProvider({ children }: PropsWithChildren) {
-  // Ensure a single QueryClient per browser session and avoid passing class instances from server
-  const [client] = useState(() => new QueryClient());
-  return <QueryClientProvider client={client}>{children}</QueryClientProvider>;
+  const [client] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            gcTime: 1000 * 60 * 60, // 1 hour
+            staleTime: 1000 * 60, // 1 minute
+          },
+        },
+      }),
+  );
+
+  const persister = createSyncStoragePersister({
+    storage: window.localStorage,
+  });
+
+  return (
+    <PersistQueryClientProvider client={client} persistOptions={{ persister }}>
+      {children}
+    </PersistQueryClientProvider>
+  );
 }

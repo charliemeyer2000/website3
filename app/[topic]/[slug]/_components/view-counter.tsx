@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-import { useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { createOrUpdateViewCount } from "../_actions/view-actions";
 
@@ -12,27 +12,17 @@ interface IViewCounterProps {
 }
 
 const ViewCounter: React.FC<IViewCounterProps> = ({ topic, slug }) => {
-  const [viewCount, setViewCount] = useState<number>(0);
-
-  const { mutate, isPending } = useMutation({
-    mutationKey: ["view-count", topic, slug],
-    mutationFn: createOrUpdateViewCount,
-    onSuccess: (data) => {
-      setViewCount(data.viewCount);
-    },
-    onError: () => {
-      // Silently ignore for UX parity with previous code
-    },
+  const { data } = useQuery({
+    queryKey: ["view-count", topic, slug],
+    queryFn: () => createOrUpdateViewCount({ topic, slug }),
+    // Show cached data immediately, then always run the query on mount to increment & refresh
+    placeholderData: (previousData) => previousData,
+    refetchOnMount: "always",
   });
-
-  useEffect(() => {
-    mutate({ topic, slug });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [slug, topic]);
 
   return (
     <div className="text-muted-foreground flex flex-row items-center text-sm">
-      <span className="tabular-nums">{isPending ? "—" : viewCount}</span>
+      <span className="tabular-nums">{data?.viewCount ?? "—"}</span>
       <span className="ml-1">views</span>
     </div>
   );
