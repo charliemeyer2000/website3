@@ -1,18 +1,14 @@
-'use client';
+"use client";
 
-import { CheckIcon, LinkIcon } from 'lucide-react';
+import { CheckIcon, LinkIcon } from "lucide-react";
 
-import { usePathname } from 'next/navigation';
+import { usePathname } from "next/navigation";
 
-import { Button, ButtonProps } from '@/components/intuitive-ui/(native)/button';
-import {
-  Size,
-  Variant,
-} from '@/components/intuitive-ui/(native)/component-enums';
+import { Button, ButtonProps } from "@/components/ui/button";
 
-import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard';
+import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 const createShareableBlogLink = (pathname: string) => {
   return `${process.env.NEXT_PUBLIC_APP_URL}${pathname}`;
@@ -29,9 +25,8 @@ const ShareLinkButton = ({ className, ...props }: ButtonProps) => {
   return (
     <Button
       className={cn(className)}
-      variant={Variant.GHOST}
-      size={Size.XXS}
-      icon
+      variant="ghost"
+      size="icon"
       onClick={handleCopy}
       {...props}
     >

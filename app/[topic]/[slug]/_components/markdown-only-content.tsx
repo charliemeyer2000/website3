@@ -1,7 +1,4 @@
-import {
-  Size,
-  Variant,
-} from "@/components/intuitive-ui/(native)/component-enums";
+import { Button } from "@/components/ui/button";
 
 import Footer from "@/app/_components/footer";
 
@@ -32,12 +29,14 @@ export const MarkdownOnlyContent = ({ post }: IMarkdownOnlyContentProps) => {
 
         <MarkdownRenderer content={post.contentHtml} />
 
-        <ShareLinkButton
+        <Button
           className="animate-in fade-in slide-in-from-bottom-full ease-inout fixed right-4 bottom-4 flex shadow-lg duration-1000 sm:hidden"
-          variant={Variant.OUTLINE}
-          rounded
-          size={Size.LG}
-        />
+          variant="outline"
+          size="lg"
+          asChild
+        >
+          <ShareLinkButton />
+        </Button>
       </div>
       <Footer variant="inline" />
     </article>
