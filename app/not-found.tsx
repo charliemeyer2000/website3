@@ -1,11 +1,12 @@
-import Link from 'next/link';
+import Link from "next/link";
+import { Title } from "@/components/intuitive-ui/(native)/(typography)/title";
 
 const NotFound = () => {
   return (
     <div className="flex h-dvh flex-col items-center justify-center gap-2">
-      <p className="text-muted-foreground text-lg">
-        sorry, this doesn&apos;t exist. let&apos;s go home.
-      </p>
+      <Title size="md">
+        sorry, this page doesn&apos;t exist. let&apos;s go home.
+      </Title>
       <Link
         href="/"
         className="text-muted-foreground hover:text-foreground text-sm"
