@@ -20,7 +20,7 @@ export async function generateMetadata({
   const { topic, slug } = await params;
 
   let title = "Charlie Meyer";
-  let description = "infrastructure, ai, llms, and safety.";
+  let description = " ai, llms, math, and interpretability.";
 
   try {
     const post = await getPostData(topic, slug);
