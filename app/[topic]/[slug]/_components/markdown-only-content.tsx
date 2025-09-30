@@ -30,7 +30,7 @@ export const MarkdownOnlyContent = ({ post }: IMarkdownOnlyContentProps) => {
         <MarkdownRenderer content={post.contentHtml} />
 
         <Button
-          className="animate-in fade-in slide-in-from-bottom-full ease-inout fixed right-4 bottom-4 flex shadow-lg duration-1000 sm:hidden"
+          className="animate-in fade-in slide-in-from-bottom-full ease-inout fixed right-4 bottom-4 z-40 flex shadow-lg duration-1000 sm:hidden"
           variant="outline"
           size="lg"
           asChild
