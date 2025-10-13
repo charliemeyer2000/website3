@@ -6,6 +6,8 @@ charlie meyer's third version of his personal website.
 
 nextjs w/tailwind, some custom components, data stored in neon w/drizzle, react-query for data fetching and caching, vercel for deployment.
 
+custom markdown rendering with remark and rehype for the blog posts.
+
 ## thanks
 
 designed with heavy inspiration from my boy [marcelo](https://marcelochaman.ca). show him some love.
