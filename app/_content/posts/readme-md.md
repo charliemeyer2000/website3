@@ -22,7 +22,7 @@ I work on inference speedup research (speculative decoding) with [Zhepei Wei](ht
 
 ## in progress
 
-- [uvacompute](https://uvacompute.com): rent compute from my personal workstation at $0.50 per 5090-hour
+- [uvacompute](https://uvacompute.com): rent a 5090 from my personal workstation in under 30 seconds.
 
 ## todo
 
