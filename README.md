@@ -17,3 +17,5 @@ thanks to [ethan niser](https://ethanniser.dev) for the [insane fix](https://git
 ## license
 
 feel free to use this however you want. maybe throwing me a shoutout somewhere would be nice but i won't track you down if you don't.
+
+if you build something cool with it, i'd love to see it.
