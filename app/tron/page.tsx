@@ -235,6 +235,28 @@ async function waitForIceGatheringComplete(pc: RTCPeerConnection) {
   });
 }
 
+function sanitizeSdp(raw: string): string | null {
+  const trimmed = raw.trim();
+  if (!trimmed) {
+    return null;
+  }
+
+  let normalized = trimmed.replace(/\r?\n/g, '\r\n');
+  if (!normalized.startsWith('v=0')) {
+    return null;
+  }
+
+  if (!/\r\no=/.test(normalized)) {
+    return null;
+  }
+
+  if (!normalized.endsWith('\r\n')) {
+    normalized += '\r\n';
+  }
+
+  return normalized;
+}
+
 function TronPage() {
   const [role, setRole] = useState<Role | null>(null);
   const [connectionStatus, setConnectionStatus] = useState<
@@ -248,6 +270,7 @@ function TronPage() {
   const [guestOfferInput, setGuestOfferInput] = useState('');
   const [guestAnswer, setGuestAnswer] = useState('');
   const [isNegotiating, setIsNegotiating] = useState(false);
+  const [showTouchControls, setShowTouchControls] = useState(false);
 
   const [gameState, setGameState] = useState<SharedGameState>(() =>
     createInitialGameState(),
@@ -358,6 +381,44 @@ function TronPage() {
       }
     },
     [role, updatePlayerDirection],
+  );
+
+  const handleDirectionInput = useCallback(
+    (direction: Direction) => {
+      const current = gameStateRef.current;
+      if (current.status !== 'running' || !role) {
+        return;
+      }
+
+      if (role === 'host') {
+        const player = current.players.p1;
+        if (
+          !player.alive ||
+          player.direction === direction ||
+          isOppositeDirection(player.direction, direction)
+        ) {
+          return;
+        }
+
+        updatePlayerDirection('p1', direction);
+        sendPacket({ type: 'direction', player: 'p1', direction });
+        return;
+      }
+
+      if (role === 'guest') {
+        const player = current.players.p2;
+        if (
+          !player.alive ||
+          player.direction === direction ||
+          isOppositeDirection(player.direction, direction)
+        ) {
+          return;
+        }
+
+        sendPacket({ type: 'direction', player: 'p2', direction });
+      }
+    },
+    [role, sendPacket, updatePlayerDirection],
   );
 
   const attachDataChannel = useCallback(
@@ -567,7 +628,9 @@ function TronPage() {
       await pc.setLocalDescription(offer);
       await waitForIceGatheringComplete(pc);
 
-      setHostOffer(pc.localDescription?.sdp ?? '');
+      const sdp = pc.localDescription?.sdp ?? '';
+      setHostOffer(sanitizeSdp(sdp) ?? sdp);
+      setHostAnswerInput('');
       setStatusMessage(
         'Offer ready! Send it to your friend and paste their answer below.',
       );
@@ -584,11 +647,15 @@ function TronPage() {
       return;
     }
 
-    const remoteSdp = hostAnswerInput.trim();
-    if (!remoteSdp) {
-      setStatusMessage('Paste the answer provided by your friend first.');
+    const sanitized = sanitizeSdp(hostAnswerInput);
+    if (!sanitized) {
+      setStatusMessage(
+        'The answer text looks incomplete. Make sure you paste the entire blob that starts with “v=0”.',
+      );
       return;
     }
+
+    setHostAnswerInput(sanitized);
 
     try {
       setIsNegotiating(true);
@@ -598,9 +665,7 @@ function TronPage() {
         return;
       }
 
-      await pc.setRemoteDescription(
-        new RTCSessionDescription({ type: 'answer', sdp: remoteSdp }),
-      );
+      await pc.setRemoteDescription({ type: 'answer', sdp: sanitized });
       setStatusMessage('Answer applied. Waiting for the connection to open...');
     } catch (error) {
       console.error('Failed to apply answer', error);
@@ -617,27 +682,31 @@ function TronPage() {
       return;
     }
 
-    const remoteOffer = guestOfferInput.trim();
-    if (!remoteOffer) {
-      setStatusMessage('Paste the host offer first.');
+    const sanitizedOffer = sanitizeSdp(guestOfferInput);
+    if (!sanitizedOffer) {
+      setStatusMessage(
+        'The offer text looks incomplete. Make sure it starts with “v=0” and includes the entire blob the host sent.',
+      );
       return;
     }
 
+    setGuestOfferInput(sanitizedOffer);
+
     try {
       setIsNegotiating(true);
+      setGuestAnswer('');
       const pc = createPeerConnection();
       setStatusMessage('Applying offer...');
 
-      await pc.setRemoteDescription(
-        new RTCSessionDescription({ type: 'offer', sdp: remoteOffer }),
-      );
+      await pc.setRemoteDescription({ type: 'offer', sdp: sanitizedOffer });
       setStatusMessage('Generating answer...');
 
       const answer = await pc.createAnswer();
       await pc.setLocalDescription(answer);
       await waitForIceGatheringComplete(pc);
 
-      setGuestAnswer(pc.localDescription?.sdp ?? '');
+      const sdp = pc.localDescription?.sdp ?? '';
+      setGuestAnswer(sanitizeSdp(sdp) ?? sdp);
       setStatusMessage('Answer ready! Send it back to the host.');
     } catch (error) {
       console.error('Failed to apply host offer', error);
@@ -674,6 +743,26 @@ function TronPage() {
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
     }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+      return;
+    }
+
+    const mediaQuery = window.matchMedia('(pointer: coarse)');
+    const update = () => setShowTouchControls(mediaQuery.matches);
+    update();
+
+    const listener = () => update();
+
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', listener);
+      return () => mediaQuery.removeEventListener('change', listener);
+    }
+
+    mediaQuery.addListener(listener);
+    return () => mediaQuery.removeListener(listener);
   }, []);
 
   useEffect(() => {
@@ -757,23 +846,14 @@ function TronPage() {
       const direction = KEY_TO_DIRECTION[event.key.toLowerCase()];
       if (!direction) return;
 
-      const current = gameStateRef.current;
-      if (current.status !== 'running') return;
-      if (!role) return;
-
       event.preventDefault();
 
-      if (role === 'host') {
-        updatePlayerDirection('p1', direction);
-        sendPacket({ type: 'direction', player: 'p1', direction });
-      } else if (role === 'guest') {
-        sendPacket({ type: 'direction', player: 'p2', direction });
-      }
+      handleDirectionInput(direction);
     };
 
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [role, sendPacket, updatePlayerDirection]);
+  }, [handleDirectionInput]);
 
   useEffect(() => {
     gameStateRef.current = gameState;
@@ -873,12 +953,95 @@ function TronPage() {
             </div>
           </div>
 
+          {showTouchControls ? (
+            <div className="mt-6 flex justify-center">
+              <div className="grid grid-cols-3 gap-4">
+                <div />
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="icon"
+                  className="h-16 w-16 rounded-full bg-cyan-500/20 text-2xl text-cyan-100 hover:bg-cyan-500/30"
+                  aria-label="Move up"
+                  onPointerDown={(event) => {
+                    event.preventDefault();
+                    handleDirectionInput('up');
+                  }}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    handleDirectionInput('up');
+                  }}
+                >
+                  ↑
+                </Button>
+                <div />
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="icon"
+                  className="h-16 w-16 rounded-full bg-cyan-500/20 text-2xl text-cyan-100 hover:bg-cyan-500/30"
+                  aria-label="Move left"
+                  onPointerDown={(event) => {
+                    event.preventDefault();
+                    handleDirectionInput('left');
+                  }}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    handleDirectionInput('left');
+                  }}
+                >
+                  ←
+                </Button>
+                <div className="flex items-center justify-center text-xs font-semibold uppercase tracking-wide text-slate-400">
+                  Tap to steer
+                </div>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="icon"
+                  className="h-16 w-16 rounded-full bg-cyan-500/20 text-2xl text-cyan-100 hover:bg-cyan-500/30"
+                  aria-label="Move right"
+                  onPointerDown={(event) => {
+                    event.preventDefault();
+                    handleDirectionInput('right');
+                  }}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    handleDirectionInput('right');
+                  }}
+                >
+                  →
+                </Button>
+                <div />
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="icon"
+                  className="h-16 w-16 rounded-full bg-cyan-500/20 text-2xl text-cyan-100 hover:bg-cyan-500/30"
+                  aria-label="Move down"
+                  onPointerDown={(event) => {
+                    event.preventDefault();
+                    handleDirectionInput('down');
+                  }}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    handleDirectionInput('down');
+                  }}
+                >
+                  ↓
+                </Button>
+                <div />
+              </div>
+            </div>
+          ) : null}
+
           <div className="rounded-2xl border border-white/10 bg-slate-950/60 p-6 shadow-lg shadow-slate-950/40">
             <p className="text-sm font-semibold uppercase tracking-wide text-slate-300">
               Controls
             </p>
             <ul className="mt-3 space-y-1 text-sm text-slate-300">
               <li>• Use arrow keys or WASD to steer your light cycle.</li>
+              <li>• On touch devices, tap the on-screen directional pad to steer.</li>
               <li>• You cannot reverse direction into your own trail.</li>
               <li>• Colliding with a wall or trail ends the round.</li>
             </ul>
