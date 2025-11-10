@@ -4,7 +4,7 @@ charlie meyer's third version of his personal website.
 
 ## stack
 
-nextjs w/tailwind, some custom components, data stored in neon w/drizzle, react-query for data fetching and caching, vercel for deployment.
+nextjs 15 w/tailwind, some custom components, data stored in neon w/drizzle, react-query for data fetching and caching, vercel for deployment.
 
 custom markdown rendering with remark and rehype for the blog posts.
 
