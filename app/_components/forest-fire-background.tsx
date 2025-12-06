@@ -136,10 +136,12 @@ const ForestFireBackground = () => {
           const cell = grid[y * cols + x];
 
           if (cell === TREE) {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.018)";
+            // One shade darker than --background (oklch(1 0 0))
+            ctx.fillStyle = "oklch(0.96 0 0)";
             ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
           } else if (cell === BURNING) {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            // Two shades darker for fires
+            ctx.fillStyle = "oklch(0.90 0 0)";
             ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
           }
           // Empty cells are transparent (not drawn)
