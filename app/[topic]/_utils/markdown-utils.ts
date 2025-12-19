@@ -1,6 +1,7 @@
 import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
+import rehypeExternalLinks from "rehype-external-links";
 import rehypeSlug from "rehype-slug";
 import rehypeStringify from "rehype-stringify";
 import rehypeImgSize from "rehype-img-size";
@@ -44,6 +45,11 @@ export async function getPostData(
     .use(rehypeSlug)
     // Add intrinsic width/height to images to prevent layout shift/scroll jumps
     .use(rehypeImgSize, { dir: "public" })
+    // Open external links in new tab
+    .use(rehypeExternalLinks, {
+      target: "_blank",
+      rel: ["noopener", "noreferrer"],
+    })
     .use(rehypeStringify)
     .process(matterResult.content);
   const contentHtml = processedContent.toString();

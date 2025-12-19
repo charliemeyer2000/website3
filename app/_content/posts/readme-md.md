@@ -17,16 +17,18 @@ I work on inference speedup research (speculative decoding) with [Zhepei Wei](ht
 
 ## built
 
-- [simpletext](https://simpletext.dev): stupidly simple sms provider
+- [simpletext](https://simpletext.dev): stupidly simple sms provider (no longer maintained)
 - [hufflo](https://hufflo.com): ecommerce marketing on autopilot
+- [dueflow](https://dueflow.co): making a treasurer's job easier for greek life & organizations
+- [uvacompute](https://uvacompute.com): built GPU timeshare service out of my personal workstation, rent a 5090 in under 30s
 
 ## in progress
 
-- [uvacompute](https://uvacompute.com): rent a 5090 from my personal workstation in under 30 seconds.
+- self driving couch
+- ai for math research
 
 ## todo
 
-- self driving couch
 - re-implement golden gate claude but for the UVA rotunda
 - my own os
 
