@@ -1,5 +1,3 @@
-import Clock from "./clock";
-
 interface FooterProps {
   className?: string;
   variant?: "absolute" | "inline";
@@ -10,48 +8,34 @@ export default function Footer({
   variant = "absolute",
 }: FooterProps) {
   const footerContent = (
-    <div className={`text-center ${className}`}>
+    <div className={className}>
       <hr className="hr-fancy my-3" />
-      <table
-        style={{ width: "100%", borderCollapse: "collapse" }}
-        role="presentation"
-      >
-        <tbody>
-          <tr>
-            <td style={{ textAlign: "left", padding: "4px 8px" }}>
-              <span
-                style={{
-                  fontFamily: "Courier New, monospace",
-                  fontSize: "11px",
-                  color: "#666655",
-                }}
-              >
-                San Francisco, Ca
-              </span>
-            </td>
-            <td style={{ textAlign: "center", padding: "4px 8px" }}>
-              <span style={{ fontSize: "11px", color: "#666655" }}>
-                Best viewed with Netscape Navigator 4.0 at 800x600
-              </span>
-            </td>
-            <td
-              style={{ textAlign: "right", padding: "4px 8px" }}
-              suppressHydrationWarning
-            >
-              <Clock />
-            </td>
-          </tr>
-        </tbody>
-      </table>
       <div
         style={{
-          fontSize: "10px",
-          color: "#888877",
-          marginTop: "4px",
-          fontFamily: "Courier New, monospace",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "4px 8px",
         }}
       >
-        &#169; 2025 Charlie Meyer | Made with &#9829; and HTML
+        <span
+          style={{
+            fontFamily: "Courier New, monospace",
+            fontSize: "11px",
+            color: "#666655",
+          }}
+        >
+          San Francisco, Ca
+        </span>
+        <span
+          style={{
+            fontSize: "10px",
+            color: "#888877",
+            fontFamily: "Courier New, monospace",
+          }}
+        >
+          &#169; 2026 Charlie Meyer
+        </span>
       </div>
     </div>
   );

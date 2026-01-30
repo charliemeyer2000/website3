@@ -123,37 +123,6 @@ export default function Home() {
           </nav>
 
           <div style={{ flex: 1, padding: "12px 16px" }}>
-            <div
-              style={{
-                padding: "0 0 10px 0",
-                marginBottom: "12px",
-                borderBottom: "1px solid #ccccbb",
-              }}
-            >
-              <h2
-                style={{
-                  fontFamily: "'Georgia', serif",
-                  fontSize: "15px",
-                  color: "#003366",
-                  marginBottom: "6px",
-                }}
-              >
-                Welcome
-              </h2>
-              <p
-                style={{
-                  fontSize: "13px",
-                  lineHeight: "1.6",
-                  color: "#333322",
-                }}
-              >
-                Hi, I&apos;m <b>Charlie Meyer</b>. I&apos;m interested in{" "}
-                <b>AI</b>, <b>LLMs</b>, <b>math</b>, and <b>interpretability</b>
-                . Feel free to explore my writings, experiences, and get in
-                touch.
-              </p>
-            </div>
-
             <FilteredTableOfContents />
           </div>
         </div>
