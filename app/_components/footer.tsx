@@ -9,40 +9,60 @@ export default function Footer({
   className = "",
   variant = "absolute",
 }: FooterProps) {
-  if (variant === "absolute") {
-    // Original absolute positioning for main page
-    return (
-      <>
-        <div
-          className={`absolute bottom-6 left-6 sm:bottom-2 sm:left-16 ${className}`}
-        >
-          <p className="text-muted-foreground text-xs sm:text-sm">
-            San Francisco, Ca
-          </p>
-        </div>
-
-        <div
-          className="absolute right-6 bottom-6 flex items-center gap-1.5 sm:right-16 sm:bottom-2 sm:gap-2"
-          suppressHydrationWarning
-        >
-          <Clock />
-        </div>
-      </>
-    );
-  }
-
-  // Inline flexbox variant for topic pages
-  return (
-    <div
-      className={`text-muted-foreground mt-auto flex w-full items-center justify-between pt-12 text-xs sm:text-sm ${className}`}
-    >
-      <p>San Francisco, Ca</p>
-      <div
-        className="flex items-center gap-1.5 sm:gap-2"
-        suppressHydrationWarning
+  const footerContent = (
+    <div className={`text-center ${className}`}>
+      <hr className="hr-fancy my-3" />
+      <table
+        style={{ width: "100%", borderCollapse: "collapse" }}
+        role="presentation"
       >
-        <Clock />
+        <tbody>
+          <tr>
+            <td style={{ textAlign: "left", padding: "4px 8px" }}>
+              <span
+                style={{
+                  fontFamily: "Courier New, monospace",
+                  fontSize: "11px",
+                  color: "#666655",
+                }}
+              >
+                San Francisco, Ca
+              </span>
+            </td>
+            <td style={{ textAlign: "center", padding: "4px 8px" }}>
+              <span style={{ fontSize: "11px", color: "#666655" }}>
+                Best viewed with Netscape Navigator 4.0 at 800x600
+              </span>
+            </td>
+            <td
+              style={{ textAlign: "right", padding: "4px 8px" }}
+              suppressHydrationWarning
+            >
+              <Clock />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div
+        style={{
+          fontSize: "10px",
+          color: "#888877",
+          marginTop: "4px",
+          fontFamily: "Courier New, monospace",
+        }}
+      >
+        &#169; 2025 Charlie Meyer | Made with &#9829; and HTML
       </div>
     </div>
   );
+
+  if (variant === "absolute") {
+    return (
+      <div className="absolute right-0 bottom-0 left-0 px-4 pb-2">
+        {footerContent}
+      </div>
+    );
+  }
+
+  return <div className="mt-auto pt-8">{footerContent}</div>;
 }
