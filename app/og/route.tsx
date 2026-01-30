@@ -1,107 +1,107 @@
-import { ImageResponse } from 'next/og';
-import { NextRequest } from 'next/server';
+import { ImageResponse } from "next/og";
+import { NextRequest } from "next/server";
 
-export const runtime = 'edge';
+export const runtime = "edge";
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const title = searchParams.get('title') || 'Charlie Meyer';
+    const title = searchParams.get("title") || "Charlie Meyer";
 
     return new ImageResponse(
       (
         <div
           style={{
-            height: '100%',
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            justifyContent: 'center',
-            backgroundColor: '#ffffff',
-            padding: '80px 120px',
-            position: 'relative',
-            fontFamily: 'Geist',
+            height: "100%",
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#006699",
+            fontFamily: "Georgia, Times New Roman, serif",
+            position: "relative",
           }}
         >
-          {/* Dashed grid lines - crossing the entire image */}
           <div
             style={{
-              position: 'absolute',
-              top: '60px',
-              left: '0',
-              width: '1200px',
-              height: '0px',
-              borderTop: '1px dashed #ebebeb',
-            }}
-          />
-          <div
-            style={{
-              position: 'absolute',
-              bottom: '60px',
-              left: '0',
-              width: '1200px',
-              height: '0px',
-              borderTop: '1px dashed #ebebeb',
-            }}
-          />
-          <div
-            style={{
-              position: 'absolute',
-              top: '0',
-              left: '80px',
-              width: '0px',
-              height: '630px',
-              borderLeft: '1px dashed #ebebeb',
-            }}
-          />
-          <div
-            style={{
-              position: 'absolute',
-              top: '0',
-              right: '80px',
-              width: '0px',
-              height: '630px',
-              borderLeft: '1px dashed #ebebeb',
-            }}
-          />
-
-          {/* Content */}
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '8px',
-              maxWidth: '960px',
+              width: "1080px",
+              display: "flex",
+              flexDirection: "column",
+              borderTop: "3px solid #aaddee",
+              borderLeft: "3px solid #aaddee",
+              borderRight: "3px solid #446688",
+              borderBottom: "3px solid #446688",
+              boxShadow: "6px 6px 0px #003355",
+              background: "#ffffee",
             }}
           >
             <div
               style={{
-                fontSize: '64px',
-                fontWeight: 500,
-                color: '#000000',
-                lineHeight: 1.2,
-                letterSpacing: '-0.025em',
-                fontFamily: 'Geist',
-                textAlign: 'left',
+                background: "#003366",
+                padding: "30px 40px 26px",
+                borderBottom: "3px solid #006699",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
               }}
             >
-              {title
-                .split(' ')
-                .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
-                .join(' ')}
+              <div
+                style={{
+                  fontSize: "52px",
+                  fontWeight: 700,
+                  color: "#ffffff",
+                  letterSpacing: "1px",
+                }}
+              >
+                Charlie Meyer
+              </div>
+              <div
+                style={{
+                  fontSize: "22px",
+                  color: "#88bbdd",
+                  marginTop: "4px",
+                }}
+              >
+                ai, llms, math, and interpretability
+              </div>
             </div>
             <div
               style={{
-                fontSize: '32px',
-                fontWeight: 400,
-                color: '#6b7280',
-                lineHeight: 1.2,
-                fontFamily: 'Geist',
-                textAlign: 'left',
+                padding: "36px 40px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "12px",
               }}
             >
-              charlie meyer
+              <div
+                style={{
+                  fontSize: "42px",
+                  fontWeight: 700,
+                  color: "#003366",
+                  lineHeight: 1.3,
+                }}
+              >
+                {title}
+              </div>
+              <div
+                style={{
+                  height: "3px",
+                  background:
+                    "linear-gradient(to right, transparent, #006699, #003366, #006699, transparent)",
+                  width: "100%",
+                }}
+              />
+              <div
+                style={{
+                  fontSize: "20px",
+                  color: "#0000cc",
+                  textDecoration: "underline",
+                  fontFamily: "Courier New, monospace",
+                }}
+              >
+                charliemeyer.xyz
+              </div>
             </div>
           </div>
         </div>
@@ -112,7 +112,7 @@ export async function GET(request: NextRequest) {
       },
     );
   } catch (e) {
-    console.log(`${e instanceof Error ? e.message : 'Unknown error'}`);
+    console.log(`${e instanceof Error ? e.message : "Unknown error"}`);
     return new Response(`Failed to generate the image`, {
       status: 500,
     });

@@ -2,7 +2,6 @@ import Link from "next/link";
 
 import FilteredTableOfContents from "./_components/filtered-table-of-contents";
 import Footer from "./_components/footer";
-import HitCounter from "./_components/hit-counter";
 
 export default function Home() {
   return (
@@ -160,10 +159,6 @@ export default function Home() {
         </div>
 
         <Footer variant="inline" />
-      </div>
-
-      <div style={{ marginTop: "12px" }}>
-        <HitCounter />
       </div>
     </main>
   );
