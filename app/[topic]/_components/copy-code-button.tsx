@@ -1,4 +1,4 @@
-import { Copy } from "lucide-react";
+import { Copy } from "@nsmr/pixelart-react";
 
 import { Button } from "@/components/ui/button";
 import {
