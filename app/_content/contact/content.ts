@@ -1,10 +1,10 @@
-import { AtSign, Github, Linkedin, Mail, Twitter } from "lucide-react";
+import { At, Github, Contact, Mail, Message } from "@nsmr/pixelart-react";
 
 import { IContentGroup } from "@/app/[topic]/_constants/content-types";
 
 const CONTENT: IContentGroup = {
   title: "Contact",
-  Icon: AtSign,
+  Icon: At,
   href: "/contact",
   items: [
     {
@@ -15,13 +15,13 @@ const CONTENT: IContentGroup = {
     {
       title: "LinkedIn",
       href: "https://www.linkedin.com/in/charlie-meyer-loves-you/",
-      Icon: Linkedin,
+      Icon: Contact,
       external: true,
     },
     {
       title: "Twitter",
       href: "https://x.com/charlie_meyer_",
-      Icon: Twitter,
+      Icon: Message,
       external: true,
     },
     {

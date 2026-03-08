@@ -3,8 +3,6 @@ import path from "path";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { Title } from "@/components/intuitive-ui/(native)/(typography)/title";
-
 import Footer from "@/app/_components/footer";
 import TableOfContentsSection from "@/app/_components/table-of-contents-section";
 
@@ -24,7 +22,6 @@ export async function generateStaticParams() {
     return [];
   }
 
-  // Get all directories that contain a content.ts file
   const topics = fs
     .readdirSync(contentDir, { withFileTypes: true })
     .filter((dirent) => dirent.isDirectory())
@@ -39,17 +36,10 @@ export async function generateStaticParams() {
   }));
 }
 
-/**
- * Dynamically loads content configuration for a given topic
- * Checks if the topic has a content.ts file and returns the content group
- */
 async function loadTopicContent(topic: string): Promise<IContentGroup | null> {
-  // Prevent trying to load content for non-topic files like favicon.ico
   if (!/^[a-zA-Z0-9-_]+$/.test(topic)) {
-    // Only allow valid topic slugs (alphanumeric, dash, underscore)
     return null;
   }
-  // Optionally, explicitly skip known non-topic files
   if (topic === "favicon.ico") {
     return null;
   }
@@ -59,7 +49,6 @@ async function loadTopicContent(topic: string): Promise<IContentGroup | null> {
       `@/app/_content/${topic}/content`
     )) as { default: IContentGroup };
 
-    // Validate that the imported content is valid
     if (!content || typeof content !== "object") {
       console.warn(`Invalid content structure for topic: ${topic}`);
       return null;
@@ -67,13 +56,11 @@ async function loadTopicContent(topic: string): Promise<IContentGroup | null> {
 
     return content;
   } catch (error) {
-    // Handle module not found and other import errors
     if (error instanceof Error) {
       if (
         error.message.includes("Cannot find module") ||
         error.message.includes("Module not found")
       ) {
-        // Silently handle missing content modules
         return null;
       }
       console.error(`Error loading content for topic: ${topic}`, error.message);
@@ -84,39 +71,69 @@ async function loadTopicContent(topic: string): Promise<IContentGroup | null> {
   }
 }
 
-/**
- * Dynamic topic page that displays a table of contents
- * for content found in app/_content/[topic]/content.ts
- */
 export default async function TopicPage({ params }: ITopicPageProps) {
   const { topic } = await params;
 
-  // Load the topic content dynamically
   const topicContent = await loadTopicContent(topic);
 
-  // If no content found, show 404
   if (!topicContent) {
     notFound();
   }
 
-  // Filter out private content
   const filteredContent = filterPrivateContent(topicContent, topic);
 
   return (
-    <div className="relative mx-auto flex min-h-screen w-full max-w-4xl flex-col px-4 pt-8 pb-6 sm:pb-2 md:py-12 md:pb-2">
-      <div className="flex grow flex-col gap-12">
-        <div className="flex flex-col gap-1">
-          <Title level="h1">{topic}</Title>
-          <Link
-            href="/"
-            className="text-muted-foreground hover:text-foreground text-sm"
+    <div className="min-h-dvh flex flex-col items-center py-6 px-4">
+      <div
+        style={{
+          maxWidth: "780px",
+          width: "100%",
+          border: "3px outset #88bbdd",
+          boxShadow: "4px 4px 0px #003355",
+          background: "#ffffee",
+        }}
+      >
+        <div
+          style={{
+            background: "#003366",
+            padding: "14px 16px",
+            borderBottom: "2px solid #006699",
+          }}
+        >
+          <h1
+            style={{
+              fontFamily: "'Georgia', 'Times New Roman', serif",
+              fontSize: "22px",
+              color: "#ffffff",
+              margin: 0,
+            }}
           >
-            ← home
-          </Link>
+            {topic}
+          </h1>
         </div>
-        <TableOfContentsSection group={filteredContent} />
+
+        <div
+          style={{
+            background: "#eeeedd",
+            padding: "6px 12px",
+            borderBottom: "1px solid #ccccbb",
+            fontSize: "12px",
+            fontFamily: "'Georgia', serif",
+          }}
+        >
+          <Link href="/" style={{ fontSize: "12px" }}>
+            Home
+          </Link>
+          {" > "}
+          <span style={{ color: "#666655" }}>{topic}</span>
+        </div>
+
+        <div style={{ padding: "16px" }}>
+          <TableOfContentsSection group={filteredContent} />
+        </div>
+
+        <Footer variant="inline" />
       </div>
-      <Footer variant="inline" />
     </div>
   );
 }

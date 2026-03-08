@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckIcon, LinkIcon } from "lucide-react";
+import { Check, Link as LinkPixel } from "@nsmr/pixelart-react";
 
 import { usePathname } from "next/navigation";
 
@@ -30,7 +30,7 @@ const ShareLinkButton = ({ className, ...props }: ButtonProps) => {
       onClick={handleCopy}
       {...props}
     >
-      {isCopied ? <CheckIcon /> : <LinkIcon />}
+      {isCopied ? <Check /> : <LinkPixel />}
     </Button>
   );
 };
