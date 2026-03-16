@@ -27,13 +27,14 @@ export async function getPostData(
   topic: string,
   slug: string,
 ): Promise<IMarkdownContent> {
-  const fullPath = path.join(postsDirectory, `${topic}/${slug}.md`);
-
-  if (!fs.existsSync(fullPath)) {
+  let fileContents: string;
+  try {
+    const mod = await import(`@/app/_content/${topic}/${slug}.md`);
+    fileContents = mod.default;
+  } catch {
     throw new Error(`Post not found: ${topic}/${slug}`);
   }
 
-  const fileContents = fs.readFileSync(fullPath, "utf8");
   const matterResult = matter(fileContents);
 
   // Check if the post is private
