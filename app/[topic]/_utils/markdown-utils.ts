@@ -2,6 +2,7 @@ import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
 import rehypeExternalLinks from "rehype-external-links";
+import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
 import rehypeStringify from "rehype-stringify";
 import rehypeImgSize from "rehype-img-size";
@@ -41,7 +42,8 @@ export async function getPostData(
   }
 
   const processedContent = await remark()
-    .use(remarkRehype)
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeRaw)
     .use(rehypeSlug)
     // Add intrinsic width/height to images to prevent layout shift/scroll jumps
     .use(rehypeImgSize, { dir: "public" })

@@ -122,18 +122,10 @@ export default function Clock() {
             const dateStringElement = document.getElementById("date-string");
 
             if (hourHand && minuteHand && secondHand && dateStringElement) {
-              hourHand.style.cssText =
-                "height: 4px; margin-top: -4px; margin-left: -0.5px; transform-origin: center bottom; transform: rotate(" +
-                (hours * 30 + minutes * 0.5) +
-                "deg);";
-              minuteHand.style.cssText =
-                "height: 6px; margin-top: -6px; margin-left: -0.5px; transform-origin: center bottom; transform: rotate(" +
-                minutes * 6 +
-                "deg);";
-              secondHand.style.cssText =
-                "height: 6px; margin-top: -6px; margin-left: -0.5px; transform-origin: center bottom; transform: rotate(" +
-                seconds * 6 +
-                "deg);";
+              hourHand.style.transform =
+                "rotate(" + (hours * 30 + minutes * 0.5) + "deg)";
+              minuteHand.style.transform = "rotate(" + minutes * 6 + "deg)";
+              secondHand.style.transform = "rotate(" + seconds * 6 + "deg)";
               dateStringElement.textContent = formattedDate;
             } else {
               console.error("Failed to set clock hands");
