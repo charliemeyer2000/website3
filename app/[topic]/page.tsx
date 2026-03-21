@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Link } from "next-view-transitions";
 
 import { Title } from "@/components/intuitive-ui/(native)/(typography)/title";
 
@@ -110,6 +110,7 @@ export default async function TopicPage({ params }: ITopicPageProps) {
           <Link
             href="/"
             className="text-muted-foreground hover:text-foreground text-sm"
+            style={{ viewTransitionName: "vt-back" }}
           >
             ← home
           </Link>

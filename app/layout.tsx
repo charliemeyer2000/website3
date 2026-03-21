@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { ViewTransitions } from "next-view-transitions";
 
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -31,15 +32,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <TooltipProvider>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} min-h-svh font-sans antialiased`}
-        >
-          <ReactQueryProvider>{children}</ReactQueryProvider>
-          <Toaster />
-        </body>
-      </TooltipProvider>
-    </html>
+    <ViewTransitions>
+      <html lang="en">
+        <TooltipProvider>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} min-h-svh font-sans antialiased`}
+          >
+            <ReactQueryProvider>{children}</ReactQueryProvider>
+            <Toaster />
+          </body>
+        </TooltipProvider>
+      </html>
+    </ViewTransitions>
   );
 }

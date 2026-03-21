@@ -1,4 +1,5 @@
-import Link from "next/link";
+import NextLink from "next/link";
+import { Link } from "next-view-transitions";
 
 import { Title } from "@/components/intuitive-ui/(native)/(typography)/title";
 import { Separator } from "@/components/ui/separator";
@@ -25,25 +26,42 @@ const TableOfContentsSection = ({
         <group.Icon className="mt-0.5 size-4" />
       </div>
       <Separator />
-      {group.items.map((item) => (
-        <Link
-          key={item.title}
-          className="group/link"
-          href={item.href}
-          target={item.external ? "_blank" : "_self"}
-          rel={item.external ? "noopener noreferrer" : undefined}
-        >
-          <div className="text-foreground flex flex-row items-start justify-between gap-2 no-underline group-hover/link:underline">
-            <p className="mb-0 text-sm font-normal">{item.title}</p>
-            <item.Icon className="mt-0.5 size-4" />
-          </div>
-          {item.description && (
-            <p className="text-muted-foreground pr-6 text-sm text-pretty">
-              {item.description}
-            </p>
-          )}
-        </Link>
-      ))}
+      {group.items.map((item) => {
+        const isInternal = !item.external && item.href.startsWith("/");
+        const LinkComponent = item.external ? NextLink : Link;
+        const itemSlug = isInternal
+          ? item.href.split("/").filter(Boolean).join("-")
+          : undefined;
+
+        return (
+          <LinkComponent
+            key={item.title}
+            className="group/link"
+            href={item.href}
+            target={item.external ? "_blank" : "_self"}
+            rel={item.external ? "noopener noreferrer" : undefined}
+          >
+            <div className="text-foreground flex flex-row items-start justify-between gap-2 no-underline group-hover/link:underline">
+              <p
+                className="mb-0 text-sm font-normal"
+                style={
+                  itemSlug
+                    ? { viewTransitionName: `vt-item-${itemSlug}` }
+                    : undefined
+                }
+              >
+                {item.title}
+              </p>
+              <item.Icon className="mt-0.5 size-4" />
+            </div>
+            {item.description && (
+              <p className="text-muted-foreground pr-6 text-sm text-pretty">
+                {item.description}
+              </p>
+            )}
+          </LinkComponent>
+        );
+      })}
     </div>
   );
 };

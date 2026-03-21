@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <main className="relative flex min-h-dvh flex-grow flex-col justify-start sm:justify-center">
       <div className="flex flex-col gap-8 p-6 py-24 pb-20 sm:px-16 sm:pb-24">
-        <div>
+        <div style={{ viewTransitionName: "vt-hero" }}>
           <Title>charlie meyer</Title>
           <Subtitle balance>ai, llms, math, and interpretability.</Subtitle>
         </div>

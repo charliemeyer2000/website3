@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname } from "next/navigation";
+import { Link } from "next-view-transitions";
 
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
+} from "@/components/ui/breadcrumb";
 
-import { capitalizeText } from '@/lib/utils/text-formatting-utils';
+import { capitalizeText } from "@/lib/utils/text-formatting-utils";
 
 interface IContentBreadcrumbsProps {
   title?: string;
@@ -18,7 +18,8 @@ interface IContentBreadcrumbsProps {
 
 const ContentBreadcrumbs = ({ title }: IContentBreadcrumbsProps) => {
   const pathname = usePathname();
-  const topic = pathname?.split('/')[1] ?? '';
+  const topic = pathname?.split("/")[1] ?? "";
+  const itemSlug = pathname?.slice(1).replace(/\//g, "-") ?? "";
 
   return (
     <Breadcrumb className="flex flex-row items-center gap-2">
@@ -38,7 +39,12 @@ const ContentBreadcrumbs = ({ title }: IContentBreadcrumbsProps) => {
           <BreadcrumbSeparator />
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <span className="cursor-default text-sm">{title}</span>
+              <span
+                className="cursor-default text-sm"
+                style={{ viewTransitionName: `vt-item-${itemSlug}` }}
+              >
+                {title}
+              </span>
             </BreadcrumbLink>
           </BreadcrumbItem>
         </>
