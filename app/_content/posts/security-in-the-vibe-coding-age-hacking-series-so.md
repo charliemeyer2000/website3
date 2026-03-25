@@ -1,6 +1,7 @@
 ---
 title: Security in the Vibe Coding Age — Hacking Series.so
 visibility: public
+shortUrl: series
 ---
 
 # Series.so Hack

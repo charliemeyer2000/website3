@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+import { getShortUrlRedirects } from "./lib/short-url-redirects";
+
 const nextConfig: NextConfig = {
   experimental: {
     turbo: {
@@ -25,6 +27,9 @@ const nextConfig: NextConfig = {
         destination: "/resume.pdf",
       },
     ];
+  },
+  redirects: async () => {
+    return getShortUrlRedirects();
   },
 };
 

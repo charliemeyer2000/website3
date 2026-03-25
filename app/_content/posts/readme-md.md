@@ -1,6 +1,7 @@
 ---
 title: "README.md"
 visibility: public
+shortUrl: readme
 ---
 
 hey, I'm charlie meyer.
