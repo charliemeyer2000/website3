@@ -145,6 +145,115 @@ svg {
   stroke-width: 1.5;
 }
 
+/* ── Shiki dual theme ── */
+
+.shiki span {
+  color: var(--shiki-light);
+}
+
+.dark .shiki span {
+  color: var(--shiki-dark) !important;
+}
+
+/* ── Code blocks ── */
+
+.code-block {
+  --code-block-bg: #fafafa;
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--code-block-bg);
+}
+
+.dark .code-block {
+  --code-block-bg: #282c34;
+}
+
+.code-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.625rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-muted-foreground);
+}
+
+.code-block-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family:
+    "SF Mono", Monaco, Consolas, "Ubuntu Mono", "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 0.8125rem;
+}
+
+.code-block-copy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  color: var(--color-muted-foreground);
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity 150ms;
+}
+.code-block-copy:hover {
+  opacity: 1;
+}
+
+.code-block .shiki {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent !important;
+}
+
+.shiki {
+  overflow-x: auto;
+  padding: 1rem 1rem 1rem 0.5rem;
+  font-family:
+    "SF Mono", Monaco, Consolas, "Ubuntu Mono", "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+.shiki code {
+  display: block;
+  min-width: fit-content;
+  counter-reset: line;
+}
+
+.shiki .line {
+  display: inline-block;
+  min-width: 100%;
+  padding-right: 1rem;
+  transition: background-color 120ms;
+}
+
+.shiki .line::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 2rem;
+  margin-right: 1.5rem;
+  text-align: right;
+  color: var(--color-muted-foreground);
+  opacity: 0.4;
+}
+
+/* Cursor line highlighting */
+.shiki .line:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.dark .shiki .line:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
 * {
   text-underline-offset: 0.125em;
 }

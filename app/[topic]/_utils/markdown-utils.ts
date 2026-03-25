@@ -1,6 +1,7 @@
 import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
+import rehypeShiki from "@shikijs/rehype";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
@@ -19,6 +20,22 @@ export interface IMarkdownContent {
 }
 
 const postsDirectory = path.join(process.cwd(), "app", "_content");
+
+const FILE_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>`;
+const COPY_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
+
+function wrapCodeBlocks(html: string): string {
+  return html.replace(
+    /<pre[^>]*class="[^"]*shiki[^"]*"[^>]*>[\s\S]*?<\/pre>/g,
+    (preBlock) => {
+      const titleMatch = preBlock.match(/data-title="([^"]*)"/);
+      const langMatch = preBlock.match(/data-lang="([^"]*)"/);
+      const label = titleMatch?.[1] || langMatch?.[1] || "";
+      const header = `<div class="code-block-header"><div class="code-block-title">${FILE_ICON}<span>${label}</span></div><button class="code-block-copy" aria-label="Copy code">${COPY_ICON}</button></div>`;
+      return `<div class="code-block">${header}${preBlock}</div>`;
+    },
+  );
+}
 
 /**
  * Get a single blog post by ID
@@ -44,6 +61,29 @@ export async function getPostData(
 
   const processedContent = await remark()
     .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeShiki, {
+      themes: {
+        light: "one-light",
+        dark: "one-dark-pro",
+      },
+      defaultColor: false,
+      transformers: [
+        {
+          name: "add-code-block-props",
+          pre(node) {
+            const meta =
+              (this.options.meta as Record<string, string>)?.__raw || "";
+            const titleMatch = meta.match(/title="([^"]*)"/);
+            if (titleMatch) {
+              node.properties["dataTitle"] = titleMatch[1];
+            }
+            if (this.options.lang) {
+              node.properties["dataLang"] = this.options.lang;
+            }
+          },
+        },
+      ],
+    })
     .use(rehypeRaw)
     .use(rehypeSlug)
     // Add intrinsic width/height to images to prevent layout shift/scroll jumps
@@ -55,7 +95,7 @@ export async function getPostData(
     })
     .use(rehypeStringify)
     .process(matterResult.content);
-  const contentHtml = processedContent.toString();
+  const contentHtml = wrapCodeBlocks(processedContent.toString());
 
   return {
     topic,
