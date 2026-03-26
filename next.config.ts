@@ -29,7 +29,14 @@ const nextConfig: NextConfig = {
     ];
   },
   redirects: async () => {
-    return getShortUrlRedirects();
+    return [
+      ...getShortUrlRedirects(),
+      {
+        source: "/vimessage",
+        destination: "https://github.com/charliemeyer2000/vimessage",
+        permanent: false,
+      },
+    ];
   },
 };
 
