@@ -73,7 +73,7 @@ export function MarkdownRenderer({
           "[&_p]:text-foreground [&_p]:mb-5",
           "[&_ul]:mb-5 [&_ul]:list-[square] [&_ul]:pl-5 [&_ul]:marker:text-muted-foreground/70",
           "[&_ol]:mb-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:marker:text-muted-foreground/70 [&_ol]:marker:tabular-nums",
-          "[&_li]:mb-1",
+          "[&_li]:mb-1 [&_li_p]:!mb-0 [&_li>ul]:!mb-0 [&_li>ol]:!mb-0",
           "[&_blockquote]:border-border [&_blockquote]:mb-5 [&_blockquote]:border-l-2 [&_blockquote]:pl-4 [&_blockquote]:text-foreground/70",
           "[&_code]:text-foreground [&_code]:bg-muted [&_code]:rounded-sm [&_code]:px-1 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-sm",
           "[&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:rounded-none [&_pre_code]:text-inherit",
