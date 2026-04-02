@@ -36,6 +36,11 @@ const nextConfig: NextConfig = {
         destination: "https://github.com/charliemeyer2000/vimessage",
         permanent: false,
       },
+      {
+        source: "/couch",
+        destination: "/posts/readme-md#in-progress",
+        permanent: false,
+      },
     ];
   },
 };
