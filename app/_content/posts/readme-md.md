@@ -29,13 +29,13 @@ I work on LLM research with [Zhepei Wei](https://weizhepei.com/) and independent
   - Simple talk I gave at hoohacks of eval-ing LLMs & introducing misalignment [here](https://github.com/charliemeyer2000/hoohacks-talk)
 - Re-implemented golden gate claude but for the UVA rotunda [here](https://github.com/charliemeyer2000/rotunda-qwen).
   - I tried SAEs but it wasn't much better than steering vectors, likely due to only doing this on 7B, 32B, and 72B models.
+- ai for math research: read about my research on formal theorem proving [here](/lean-adapt.pdf) that I completed for the UVA [BACS DMP program](https://csdmp.github.io/)
 
 ## in progress
 
 - self driving couch
   - Vision stack [here](https://github.com/charliemeyer2000/couch-vision), and we just did a test on the road!
     <video src="/couch_drive.mp4" controls loop muted playsinline style="max-width: 400px;"></video>
-- ai for math research
 
 ## todo
 
