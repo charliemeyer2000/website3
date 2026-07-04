@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import Footer from "@/app/_components/footer";
 
 import { MarkdownRenderer } from "../../_components/markdown-renderer";
+import { VideoCarousel } from "../../_components/video-carousel";
+import { parseContentSegments } from "../../_utils/content-segments";
 import { IMarkdownContent } from "../../_utils/markdown-utils";
 import ContentBreadcrumbs from "./content-breadcrumbs";
 import ShareLinkButton from "./share-link-button";
@@ -16,6 +18,8 @@ interface IMarkdownOnlyContentProps {
  * Traditional single-markdown blog post component
  */
 export const MarkdownOnlyContent = ({ post }: IMarkdownOnlyContentProps) => {
+  const segments = parseContentSegments(post.contentHtml);
+
   return (
     <article className="relative mx-auto flex w-full max-w-4xl grow flex-col px-4 pt-8 pb-6 sm:pb-2 md:py-12 md:pb-2">
       <div className="flex grow flex-col gap-12">
@@ -27,7 +31,19 @@ export const MarkdownOnlyContent = ({ post }: IMarkdownOnlyContentProps) => {
           </div>
         </div>
 
-        <MarkdownRenderer content={post.contentHtml} />
+        <div>
+          {segments.map((segment, index) =>
+            segment.type === "video-carousel" ? (
+              <VideoCarousel
+                key={index}
+                slides={segment.slides}
+                loop={segment.loop}
+              />
+            ) : (
+              <MarkdownRenderer key={index} content={segment.html} />
+            ),
+          )}
+        </div>
 
         <Button
           className="animate-in fade-in slide-in-from-bottom-full ease-inout fixed right-4 bottom-4 z-40 flex shadow-lg duration-1000 sm:hidden"
