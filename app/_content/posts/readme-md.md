@@ -2,6 +2,7 @@
 title: "README.md"
 visibility: public
 shortUrl: readme
+date: "2025-07-13"
 ---
 
 hey, I'm charlie meyer.
@@ -10,9 +11,7 @@ hey, I'm charlie meyer.
 
 ## currently
 
-I'm a fourth year @ UVA studying computer science and entrepreneurship. I'm a 2025 [Neo Scholar](https://neo.com/scholars), Model UN-er, dedicated weightlifter, and (decent) snowboarder. Previously, I've worked at [Principal Financial](https://www.principal.com/), [Scenthound](https://www.scenthound.com/), and [Vercel](https://vercel.com/). I'll be working at [Cognition](https://cognition.ai) when I graduate.
-
-I work on LLM research with [Zhepei Wei](https://weizhepei.com/) and independently explore AI for math research. How can we get LLMs to reason in formal math (Lean)?
+I'm working at Cognition, having just graduated from UVA. I'm a 2025 [Neo Scholar](https://neo.com/scholars), dedicated weightlifter, and (decent) snowboarder. Previously, I've worked at [Principal Financial](https://www.principal.com/), [Scenthound](https://www.scenthound.com/), and [Vercel](https://vercel.com/).
 
 ---
 
@@ -30,12 +29,7 @@ I work on LLM research with [Zhepei Wei](https://weizhepei.com/) and independent
 - Re-implemented golden gate claude but for the UVA rotunda [here](https://github.com/charliemeyer2000/rotunda-qwen).
   - I tried SAEs but it wasn't much better than steering vectors, likely due to only doing this on 7B, 32B, and 72B models.
 - ai for math research: read about my research on formal theorem proving [here](/lean-adapt.pdf) that I completed for the UVA [BACS DMP program](https://csdmp.github.io/)
-
-## in progress
-
-- self driving couch
-  - Vision stack [here](https://github.com/charliemeyer2000/couch-vision), and we just did a test on the road!
-    <video src="/couch_drive.mp4" controls loop muted playsinline style="max-width: 400px;"></video>
+- [self-driving couch](/posts/self-driving-couch): a ros2 robot built into a couch — iphone streams cameras + lidar to a jetson orin, yolo + nav2 plan a path, dual vesc controllers spin the wheels. repo [here](https://github.com/charliemeyer2000/couch-vision).
 
 ## todo
 

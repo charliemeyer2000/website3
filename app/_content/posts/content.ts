@@ -1,4 +1,4 @@
-import { Book, FileText, ShieldAlert, CpuIcon } from "lucide-react";
+import { Book, FileText, ShieldAlert, Sofa } from "lucide-react";
 
 import { IContentGroup } from "@/app/[topic]/_constants/content-types";
 
@@ -13,9 +13,9 @@ const CONTENT: IContentGroup = {
       Icon: ShieldAlert,
     },
     {
-      title: "uvacompute",
-      href: "/posts/uvacompute",
-      Icon: CpuIcon,
+      title: "self-driving couch",
+      href: "/posts/self-driving-couch",
+      Icon: Sofa,
     },
     {
       title: "README.md",
