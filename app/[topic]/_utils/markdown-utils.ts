@@ -122,6 +122,26 @@ export function isPostPrivate(topic: string, slug: string): boolean {
 }
 
 /**
+ * Get a markdown post's date from its frontmatter without processing its content
+ */
+export function getPostDate(topic: string, slug: string): string | null {
+  const fullPath = path.join(postsDirectory, `${topic}/${slug}.md`);
+
+  if (!fs.existsSync(fullPath)) {
+    return null;
+  }
+
+  const fileContents = fs.readFileSync(fullPath, "utf8");
+  const { date } = matter(fileContents).data;
+
+  if (!date) {
+    return null;
+  }
+
+  return date instanceof Date ? date.toISOString().slice(0, 10) : String(date);
+}
+
+/**
  * Get all blog posts for static generation
  */
 export async function getAllPosts(): Promise<

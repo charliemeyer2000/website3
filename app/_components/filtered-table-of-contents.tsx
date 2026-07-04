@@ -1,18 +1,22 @@
-import { filterPrivateContent } from '@/app/[topic]/_utils/visibility-utils';
-import CONTACT_CONTENT from '@/app/_content/contact/content';
-import EXPERIENCES_CONTENT from '@/app/_content/experiences/content';
-import POSTS_CONTENT from '@/app/_content/posts/content';
+import { sortContentByDate } from "@/app/[topic]/_utils/sort-utils";
+import { filterPrivateContent } from "@/app/[topic]/_utils/visibility-utils";
+import CONTACT_CONTENT from "@/app/_content/contact/content";
+import EXPERIENCES_CONTENT from "@/app/_content/experiences/content";
+import POSTS_CONTENT from "@/app/_content/posts/content";
 
-import TableOfContentsSection from './table-of-contents-section';
+import TableOfContentsSection from "./table-of-contents-section";
 
 const FilteredTableOfContents = () => {
   // Filter each content group
-  const filteredPosts = filterPrivateContent(POSTS_CONTENT, 'posts');
+  const filteredPosts = sortContentByDate(
+    filterPrivateContent(POSTS_CONTENT, "posts"),
+    "posts",
+  );
   const filteredExperiences = filterPrivateContent(
     EXPERIENCES_CONTENT,
-    'experiences',
+    "experiences",
   );
-  const filteredContact = filterPrivateContent(CONTACT_CONTENT, 'contact');
+  const filteredContact = filterPrivateContent(CONTACT_CONTENT, "contact");
 
   const filteredItems = [filteredPosts, filteredExperiences, filteredContact];
 

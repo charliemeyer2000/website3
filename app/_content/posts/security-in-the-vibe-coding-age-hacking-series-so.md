@@ -2,6 +2,7 @@
 title: Security in the Vibe Coding Age — Hacking Series.so
 visibility: public
 shortUrl: series
+date: "2025-07-13"
 ---
 
 # Series.so Hack

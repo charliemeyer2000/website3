@@ -9,6 +9,7 @@ import Footer from "@/app/_components/footer";
 import TableOfContentsSection from "@/app/_components/table-of-contents-section";
 
 import { IContentGroup } from "./_constants/content-types";
+import { sortContentByDate } from "./_utils/sort-utils";
 import { filterPrivateContent } from "./_utils/visibility-utils";
 
 interface ITopicPageProps {
@@ -99,8 +100,11 @@ export default async function TopicPage({ params }: ITopicPageProps) {
     notFound();
   }
 
-  // Filter out private content
-  const filteredContent = filterPrivateContent(topicContent, topic);
+  // Filter out private content and sort by date (newest first)
+  const filteredContent = sortContentByDate(
+    filterPrivateContent(topicContent, topic),
+    topic,
+  );
 
   return (
     <div className="relative mx-auto flex min-h-screen w-full max-w-4xl flex-col px-4 pt-8 pb-6 sm:pb-2 md:py-12 md:pb-2">
