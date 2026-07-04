@@ -1,7 +1,7 @@
-import '@testing-library/jest-dom';
-import { TransformStream } from 'stream/web';
-import { TextDecoder, TextEncoder } from 'util';
-import 'whatwg-fetch';
+import "@testing-library/jest-dom";
+import { TransformStream } from "stream/web";
+import { TextDecoder, TextEncoder } from "util";
+import "whatwg-fetch";
 
 global.TextEncoder = TextEncoder;
 // @ts-expect-error - TextDecoder is not defined in the global scope
@@ -9,7 +9,7 @@ global.TextDecoder = TextDecoder;
 // @ts-expect-error - TransformStream is not defined in the global scope
 global.TransformStream = TransformStream;
 
-jest.mock('next/navigation', () => ({
+jest.mock("next/navigation", () => ({
   redirect: jest.fn(),
   useRouter() {
     return {

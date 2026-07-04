@@ -1,8 +1,8 @@
-import { ElementType } from 'react';
+import { ElementType } from "react";
 
-import { ClassValue } from 'clsx';
+import { ClassValue } from "clsx";
 
-import { ContentType } from './content-enums';
+import { ContentType } from "./content-enums";
 
 export interface IContentItem {
   Icon: ElementType;

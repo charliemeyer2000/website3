@@ -2,19 +2,19 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
+} from "@/components/ui/tooltip";
 
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
-import { COLORS } from '../_constants/colors-constants';
+import { COLORS } from "../_constants/colors-constants";
 
 const ColorSquare = ({ color }: { color: string }) => {
-  const cssVariableName = color.replace('bg-', '');
+  const cssVariableName = color.replace("bg-", "");
 
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <div className={cn('border-border size-5 border', color)} />
+        <div className={cn("border-border size-5 border", color)} />
       </TooltipTrigger>
       <TooltipContent>{cssVariableName}</TooltipContent>
     </Tooltip>

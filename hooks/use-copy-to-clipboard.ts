@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from "react";
 
-import { toast } from 'sonner';
+import { toast } from "sonner";
 
 interface IUseCopyToClipboardOptions {
   timeout?: number;
@@ -25,8 +25,8 @@ export const useCopyToClipboard = (
 ) => {
   const {
     timeout = 2000,
-    successMessage = 'Copied to clipboard',
-    errorMessage = 'Failed to copy to clipboard',
+    successMessage = "Copied to clipboard",
+    errorMessage = "Failed to copy to clipboard",
     persistError = false,
     showToast = true,
   } = options;
@@ -44,12 +44,12 @@ export const useCopyToClipboard = (
 
     try {
       if (!navigator.clipboard) {
-        throw new Error('Clipboard API not supported');
+        throw new Error("Clipboard API not supported");
       }
 
       await navigator.clipboard.writeText(text);
       if (showToast) {
-        toast.success(successMessage ?? 'Copied to clipboard');
+        toast.success(successMessage ?? "Copied to clipboard");
       }
       setIsCopied(true);
 
@@ -63,10 +63,10 @@ export const useCopyToClipboard = (
       return true;
     } catch (err) {
       if (showToast) {
-        toast.error(errorMessage ?? 'Failed to copy to clipboard');
+        toast.error(errorMessage ?? "Failed to copy to clipboard");
       }
       const error =
-        err instanceof Error ? err.message : 'Failed to copy to clipboard';
+        err instanceof Error ? err.message : "Failed to copy to clipboard";
       setError(error);
       setIsCopied(false);
 

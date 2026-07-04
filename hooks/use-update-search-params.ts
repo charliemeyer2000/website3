@@ -1,6 +1,6 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from "react";
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type SearchParamValue = string | number | boolean | null | undefined;
 type SearchParams = Record<string, SearchParamValue>;
@@ -36,7 +36,7 @@ export const useUpdateSearchParams = () => {
       const nextSearchParams = new URLSearchParams(searchParams.toString());
 
       for (const [key, value] of Object.entries(params)) {
-        if (value == null || value === '') {
+        if (value == null || value === "") {
           nextSearchParams.delete(key);
         } else {
           nextSearchParams.set(key, String(value));

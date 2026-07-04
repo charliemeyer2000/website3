@@ -1,4 +1,4 @@
 export enum ContentType {
-  MARKDOWN = 'markdown',
-  COMPONENT = 'component',
+  MARKDOWN = "markdown",
+  COMPONENT = "component",
 }

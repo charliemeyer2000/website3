@@ -1,4 +1,4 @@
-import Colors from './_components/colors';
+import Colors from "./_components/colors";
 
 const DesignPage = () => {
   return (

@@ -1,16 +1,16 @@
-import { existsSync, readdirSync } from 'fs';
-import type { MetadataRoute } from 'next';
-import { join } from 'path';
+import { existsSync, readdirSync } from "fs";
+import type { MetadataRoute } from "next";
+import { join } from "path";
 
-import { filterPrivateContent } from '@/app/[topic]/_utils/visibility-utils';
+import { filterPrivateContent } from "@/app/[topic]/_utils/visibility-utils";
 
-const BASE_URL = 'https://charliemeyer.xyz';
+const BASE_URL = "https://charliemeyer.xyz";
 
 /**
  * Get all valid topic directories from _content folder
  */
 function getTopics(): string[] {
-  const contentDir = join(process.cwd(), 'app', '_content');
+  const contentDir = join(process.cwd(), "app", "_content");
   const topics: string[] = [];
 
   try {
@@ -19,7 +19,7 @@ function getTopics(): string[] {
     for (const entry of entries) {
       if (entry.isDirectory()) {
         const topicPath = join(contentDir, entry.name);
-        const contentFile = join(topicPath, 'content.ts');
+        const contentFile = join(topicPath, "content.ts");
 
         // Only include topics that have a content.ts file
         if (existsSync(contentFile)) {
@@ -28,7 +28,7 @@ function getTopics(): string[] {
       }
     }
   } catch (error) {
-    console.error('Error reading content directory:', error);
+    console.error("Error reading content directory:", error);
   }
 
   return topics;
@@ -50,9 +50,9 @@ async function getTopicSlugs(topic: string): Promise<string[]> {
     if (filteredContent.items) {
       for (const item of filteredContent.items) {
         // Only include internal links (not external ones)
-        if (item.href && !item.external && item.href.startsWith('/')) {
+        if (item.href && !item.external && item.href.startsWith("/")) {
           // Extract slug from href (e.g., "/posts/readme" -> "readme")
-          const slug = item.href.split('/').pop();
+          const slug = item.href.split("/").pop();
           if (slug) {
             slugs.push(slug);
           }
@@ -74,14 +74,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   urls.push({
     url: BASE_URL,
     lastModified: new Date(),
-    changeFrequency: 'weekly',
+    changeFrequency: "weekly",
     priority: 1,
   });
 
   urls.push({
     url: `${BASE_URL}/design`,
     lastModified: new Date(),
-    changeFrequency: 'monthly',
+    changeFrequency: "monthly",
     priority: 0.6,
   });
 
@@ -93,8 +93,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     urls.push({
       url: `${BASE_URL}/${topic}`,
       lastModified: new Date(),
-      changeFrequency: topic === 'posts' ? 'weekly' : 'monthly',
-      priority: topic === 'posts' ? 0.8 : 0.7,
+      changeFrequency: topic === "posts" ? "weekly" : "monthly",
+      priority: topic === "posts" ? 0.8 : 0.7,
     });
 
     // Add all slugs for this topic
@@ -104,8 +104,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       urls.push({
         url: `${BASE_URL}/${topic}/${slug}`,
         lastModified: new Date(),
-        changeFrequency: topic === 'posts' ? 'monthly' : 'yearly',
-        priority: topic === 'posts' ? 0.9 : 0.8,
+        changeFrequency: topic === "posts" ? "monthly" : "yearly",
+        priority: topic === "posts" ? 0.9 : 0.8,
       });
     }
   }

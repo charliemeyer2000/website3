@@ -1,5 +1,5 @@
-import { TABLE_OF_CONTENTS_ITEMS } from '../[topic]/_constants/content-constants';
-import TableOfContentsSection from './table-of-contents-section';
+import { TABLE_OF_CONTENTS_ITEMS } from "../[topic]/_constants/content-constants";
+import TableOfContentsSection from "./table-of-contents-section";
 
 const TableOfContents = () => {
   return (

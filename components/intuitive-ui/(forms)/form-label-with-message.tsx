@@ -1,20 +1,20 @@
-import { FormLabel, FormMessage, useFormField } from '@/components/ui/form';
+import { FormLabel, FormMessage, useFormField } from "@/components/ui/form";
 
-import { cn } from '@/lib/utils';
-import { prettifyText } from '@/lib/utils/text-formatting-utils';
+import { cn } from "@/lib/utils";
+import { prettifyText } from "@/lib/utils/text-formatting-utils";
 
 interface IFormLabelWithMessageProps {
   className?: string;
   required?: boolean;
   children?: React.ReactNode;
-  style?: 'optional-text' | 'required-text' | 'required-icon';
+  style?: "optional-text" | "required-text" | "required-icon";
 }
 
 export const FormLabelWithMessage = ({
   className,
   required = false,
   children,
-  style = 'optional-text',
+  style = "optional-text",
 }: IFormLabelWithMessageProps) => {
   const { error, name: fieldName } = useFormField();
   const labelText = children ?? prettifyText(fieldName);
@@ -22,7 +22,7 @@ export const FormLabelWithMessage = ({
   return (
     <div
       className={cn(
-        'mb-3 flex w-full flex-row items-center justify-between',
+        "mb-3 flex w-full flex-row items-center justify-between",
         className,
       )}
     >
@@ -38,7 +38,7 @@ export const FormLabelWithMessage = ({
 
 interface _IFormStatusProps {
   required: boolean;
-  style: 'optional-text' | 'required-text' | 'required-icon';
+  style: "optional-text" | "required-text" | "required-icon";
   hasError: boolean;
 }
 
@@ -49,7 +49,7 @@ const _FormStatus = ({ required, style, hasError }: _IFormStatusProps) => {
   }
 
   // No error message, show based on style and required state
-  if (style === 'optional-text' && !required) {
+  if (style === "optional-text" && !required) {
     return (
       <span className="text-muted-foreground-foreground text-xs leading-none font-medium">
         Optional
@@ -57,7 +57,7 @@ const _FormStatus = ({ required, style, hasError }: _IFormStatusProps) => {
     );
   }
 
-  if (style === 'required-text' && required) {
+  if (style === "required-text" && required) {
     return (
       <span className="text-muted-foreground-foreground text-xs leading-none font-medium">
         Required
@@ -65,7 +65,7 @@ const _FormStatus = ({ required, style, hasError }: _IFormStatusProps) => {
     );
   }
 
-  if (style === 'required-icon' && required) {
+  if (style === "required-icon" && required) {
     return (
       <span className="text-destructive-foreground text-xs leading-none font-medium">
         *
