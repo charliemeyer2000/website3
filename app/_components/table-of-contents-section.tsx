@@ -17,14 +17,24 @@ const TableOfContentsSection = ({
   group,
   href,
 }: ITableOfContentsSectionProps) => {
+  const header = (
+    <div className="flex flex-row items-start justify-between gap-2 no-underline group-hover/link:underline">
+      <Title className="mb-0 text-sm font-medium" level="h6">
+        {group.title}
+      </Title>
+      <group.Icon className="mt-0.5 size-4" />
+    </div>
+  );
+
   return (
     <div className={cn("flex flex-col gap-2")}>
-      <div className="flex flex-row items-start justify-between gap-2">
-        <Title className="mb-0 text-sm font-medium" level="h6" href={href}>
-          {group.title}
-        </Title>
-        <group.Icon className="mt-0.5 size-4" />
-      </div>
+      {href ? (
+        <Link className="group/link" href={href}>
+          {header}
+        </Link>
+      ) : (
+        header
+      )}
       <Separator />
       {group.items.map((item) => {
         const isInternal = !item.external && item.href.startsWith("/");
